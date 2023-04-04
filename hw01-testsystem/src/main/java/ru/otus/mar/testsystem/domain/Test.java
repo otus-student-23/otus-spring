@@ -40,7 +40,6 @@ public class Test {
     public boolean setAnswer(int questionNumber, String value) {
         if (questions.get(questionNumber).getAnswerVariants().contains(value)) {
             answers[questionNumber] = value;
-            Arrays.stream(answers).filter(a -> a != null).count();
             status = (Arrays.stream(answers).filter(a -> a != null).count() == questions.size())
                     ? TestStatus.DONE : TestStatus.IN_PROGRESS;
             return true;
