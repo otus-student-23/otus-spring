@@ -13,7 +13,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -30,10 +29,10 @@ public class QuestionDaoTest extends QuestionAbstractTest {
     @BeforeEach
     void init() {
         serializer = mock(QuestionsSerializer.class);
-        given(serializer.deserialize(any())).willReturn(ALL_QUESTIONS);
+        given(serializer.deserialize()).willReturn(ALL_QUESTIONS);
         localizer = mock(QuestionsLocalizer.class);
         given(localizer.localize(any())).willReturn(ALL_QUESTIONS);
-        dao = new QuestionDaoResource(anyString(), serializer, localizer);
+        dao = new QuestionDaoImpl(serializer, localizer);
     }
 
     @Test

@@ -19,7 +19,7 @@ public class QuestionDaoIntTest extends QuestionAbstractTest {
 
     @BeforeEach
     void init() {
-        dao = new QuestionDaoResource("questions.csv", new QuestionsSerializerCsv(),
+        dao = new QuestionDaoImpl(new QuestionsSerializerCsv("questions.csv"),
                 new QuestionsLocalizerMessageSource(new ResourceBundleMessageSource(), "ru-RU"));
     }
 

@@ -1,20 +1,15 @@
 package ru.otus.mar.testsystem.dao;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.mar.testsystem.domain.Question;
 import ru.otus.mar.testsystem.service.QuestionsLocalizer;
 import ru.otus.mar.testsystem.service.QuestionsSerializer;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.List;
 import java.util.Random;
 
 @Service
-public class QuestionDaoResource implements QuestionDao {
-
-    private final String fileName;
+public class QuestionDaoImpl implements QuestionDao {
 
     private final QuestionsSerializer serializer;
 
@@ -22,9 +17,7 @@ public class QuestionDaoResource implements QuestionDao {
 
     private List<Question> questions;
 
-    public QuestionDaoResource(@Value("${application.questionsFile}") String fileName,
-                               QuestionsSerializer serializer, QuestionsLocalizer localizer) {
-        this.fileName = fileName;
+    public QuestionDaoImpl(QuestionsSerializer serializer, QuestionsLocalizer localizer) {
         this.serializer = serializer;
         this.localizer = localizer;
     }
@@ -50,13 +43,6 @@ public class QuestionDaoResource implements QuestionDao {
     }
 
     private List<Question> getQuestions() {
-        if (questions == null) {
-            try (InputStream in = getClass().getClassLoader().getResourceAsStream(fileName)) {
-                questions = localizer.localize(serializer.deserialize(in));
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return questions;
+        return questions == null ? questions = localizer.localize(serializer.deserialize()) : questions;
     }
 }
