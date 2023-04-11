@@ -1,0 +1,10 @@
+spring:
+  messages:
+    basename: i18n/appmessages
+    encoding: UTF-8
+
+application:
+  locale: ru_RU
+  testType: RANDOM_FULL
+  questionsFile: questions.csv
+  passingScore: 3
