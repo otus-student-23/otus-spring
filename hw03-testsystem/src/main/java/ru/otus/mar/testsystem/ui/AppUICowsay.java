@@ -40,22 +40,22 @@ public class AppUICowsay implements AppUI, CommandLineRunner {
     @Override
     public void runTest() {
         Test test = testService.createTest();
-        out.printf("%n%s%n%s%s%n", localMessage("welcome", new String[]{"TestSystem"}), LINE_SEPERATOR, COW_IMAGE);
+        out.printf("%n%s%n%s%s%n", localeMessage("welcome", new String[]{"TestSystem"}), LINE_SEPERATOR, COW_IMAGE);
         Scanner scanner = new Scanner(System.in);
-        out.printf("%s: ", localMessage("lastname"));
+        out.printf("%s: ", localeMessage("lastname"));
         test.getUser().setLastName(scanner.next());
-        out.printf("%s: ", localMessage("firstname"));
+        out.printf("%s: ", localeMessage("firstname"));
         test.getUser().setFirstName(scanner.next());
-        out.printf("%n%s %tT%n%s", localMessage("startedAt"), new Date(), LINE_SEPERATOR);
+        out.printf("%n%s %tT%n%s", localeMessage("startedAt"), new Date(), LINE_SEPERATOR);
         int i = 1;
         for (Question question : test.getQuestions()) {
             out.printf("%d. %s%n", i++, question.getQuestion());
             do {
-                out.printf("    %s %s: ", localMessage("enterAnswer"),
+                out.printf("    %s %s: ", localeMessage("enterAnswer"),
                         Arrays.toString(question.getAnswerVariants().toArray()));
             } while (!test.setAnswer((i - 2), scanner.next()));
         }
-        out.printf("%s%s %tT%n", LINE_SEPERATOR, localMessage("completedAt"), new Date());
+        out.printf("%s%s %tT%n", LINE_SEPERATOR, localeMessage("completedAt"), new Date());
         out.println(testService.printTestResult(test));
     }
 
@@ -64,11 +64,11 @@ public class AppUICowsay implements AppUI, CommandLineRunner {
         runTest();
     }
 
-    private String localMessage(String code) {
-        return localMessage(code, null);
+    private String localeMessage(String code) {
+        return localeMessage(code, null);
     }
 
-    private String localMessage(String code, Object[] args) {
+    private String localeMessage(String code, Object[] args) {
         return messageSource.getMessage(code, args, locale);
     }
 }
