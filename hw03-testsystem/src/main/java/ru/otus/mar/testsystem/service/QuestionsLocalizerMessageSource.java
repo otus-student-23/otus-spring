@@ -17,7 +17,7 @@ public class QuestionsLocalizerMessageSource implements QuestionsLocalizer {
     private final Locale locale;
 
     public QuestionsLocalizerMessageSource(MessageSource messageSource,
-                                           @Value("${application.locale:en-US}") String locale) {
+                                           @Value("${application.locale:en}") String locale) {
         this.messageSource = messageSource;
         this.locale = Locale.forLanguageTag(locale);
     }

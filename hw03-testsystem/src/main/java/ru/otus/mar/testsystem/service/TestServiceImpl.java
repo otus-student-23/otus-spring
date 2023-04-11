@@ -25,7 +25,7 @@ public class TestServiceImpl implements TestService {
 
     private final MessageSource messageSource;
 
-    @Value("${application.locale:en-US}")
+    @Value("${application.locale:en}")
     private Locale locale;
 
     @Override
