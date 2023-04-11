@@ -4,7 +4,7 @@ spring:
     encoding: UTF-8
 
 application:
-  locale: ru_RU
+  locale: ru-RU
   testType: RANDOM_FULL
   questionsFile: questions.csv
   passingScore: 3
