@@ -51,18 +51,5 @@ public class TestServiceImpl implements TestService {
                         Arrays.toString(test.getAnswers()),
                         String.valueOf(test.getCorrectAnswersCount()), String.valueOf(test.getQuestions().size())},
                 locale);
-
-        /*
-        return String.format("""
-                Status: %s
-                User: %s %s
-                Answers: %s
-                Correct answers: %d (of %d)""",
-                test.getStatus().name(),
-                test.getUser().getLastName(), test.getUser().getFirstName(),
-                Arrays.toString(test.getAnswers()),
-                test.getCorrectAnswersCount(), test.getQuestions().size());
-
-         */
     }
 }
