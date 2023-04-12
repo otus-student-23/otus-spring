@@ -26,10 +26,10 @@ public class QuestionsLocalizerMessageSource implements QuestionsLocalizer {
     public List<Question> localize(List<Question> question) {
         List<Question> result = new ArrayList<>(question.size());
         question.forEach(q -> result.add(new Question(
-                q.getId(),
-                messageSource.getMessage(String.format("question.%s", q.getId()), null, q.getQuestion(), locale),
-                q.getAnswerVariants(),
-                q.getCorrectAnswer()
+                q.id(),
+                messageSource.getMessage(String.format("question.%s", q.id()), null, q.question(), locale),
+                q.answerVariants(),
+                q.correctAnswer()
         )));
         return result;
     }

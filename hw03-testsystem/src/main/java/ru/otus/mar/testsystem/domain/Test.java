@@ -49,7 +49,7 @@ public class Test {
 
     private void updateCorrectAnswersCount() {
         correctAnswersCount = (int) IntStream.range(0, questions.size())
-                .filter(i -> questions.get(i).getCorrectAnswer().equals(answers[i]))
+                .filter(i -> questions.get(i).correctAnswer().equals(answers[i]))
                 .count();
     }
 
@@ -71,7 +71,7 @@ public class Test {
     }
 
     public boolean setAnswer(int questionNumber, String value) {
-        if (questions.get(questionNumber).getAnswerVariants().contains(value)) {
+        if (questions.get(questionNumber).answerVariants().contains(value)) {
             answers[questionNumber] = value;
             updateCorrectAnswersCount();
             updateStatus();

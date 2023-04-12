@@ -22,5 +22,5 @@ public class QuestionsLocalizerTest extends QuestionAbstractTest {
 
     @Test
     void localize() {
-        assertEquals("Вычислите 2 * 2 = ?", localizer.localize(ALL_QUESTIONS).get(0).getQuestion());
+        assertEquals("Вычислите 2 * 2 = ?", localizer.localize(ALL_QUESTIONS).get(0).question());
     }}

@@ -49,10 +49,10 @@ public class AppUICowsay implements AppUI, CommandLineRunner {
         out.printf("%n%s %tT%n%s", localeMessage("startedAt"), new Date(), LINE_SEPERATOR);
         int i = 1;
         for (Question question : test.getQuestions()) {
-            out.printf("%d. %s%n", i++, question.getQuestion());
+            out.printf("%d. %s%n", i++, question.question());
             do {
                 out.printf("    %s %s: ", localeMessage("enterAnswer"),
-                        Arrays.toString(question.getAnswerVariants().toArray()));
+                        Arrays.toString(question.answerVariants().toArray()));
             } while (!test.setAnswer((i - 2), scanner.next()));
         }
         out.printf("%s%s %tT%n", LINE_SEPERATOR, localeMessage("completedAt"), new Date());
