@@ -1,13 +1,5 @@
 package ru.otus.mar.testsystem.domain;
 
-import lombok.Getter;
-import lombok.Setter;
+public record User(String firstName, String lastName) {
 
-@Getter
-@Setter
-public class User {
-
-    private String firstName;
-
-    private String lastName;
 }

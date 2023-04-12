@@ -7,7 +7,7 @@ import java.util.stream.IntStream;
 
 public class Test {
 
-    private final User user;
+    private User user;
 
     private TestStatus status;
 
@@ -20,11 +20,14 @@ public class Test {
     private final int passingScore;
 
     public Test(List<Question> questions, int passingScore) {
-        this.user = new User();
         this.questions = questions;
         this.answers = new String[questions.size()];
         this.status = TestStatus.NEW;
         this.passingScore = passingScore;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public User getUser() {

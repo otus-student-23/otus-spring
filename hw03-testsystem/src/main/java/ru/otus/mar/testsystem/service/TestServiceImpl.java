@@ -47,7 +47,7 @@ public class TestServiceImpl implements TestService {
         return messageSource.getMessage(
                 "resultReport",
                 new String[]{test.getStatus().name(),
-                        test.getUser().getLastName(), test.getUser().getFirstName(),
+                        test.getUser().lastName(), test.getUser().firstName(),
                         Arrays.toString(test.getAnswers()),
                         String.valueOf(test.getCorrectAnswersCount()), String.valueOf(test.getQuestions().size())},
                 locale);

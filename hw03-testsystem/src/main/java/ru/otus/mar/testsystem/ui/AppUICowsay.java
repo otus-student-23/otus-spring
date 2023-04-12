@@ -7,6 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import ru.otus.mar.testsystem.domain.Question;
 import ru.otus.mar.testsystem.domain.Test;
+import ru.otus.mar.testsystem.domain.User;
 import ru.otus.mar.testsystem.service.TestService;
 
 import java.util.Arrays;
@@ -43,9 +44,9 @@ public class AppUICowsay implements AppUI, CommandLineRunner {
         out.printf("%n%s%n%s%s%n", localeMessage("welcome", new String[]{"TestSystem"}), LINE_SEPERATOR, COW_IMAGE);
         Scanner scanner = new Scanner(System.in);
         out.printf("%s: ", localeMessage("lastname"));
-        test.getUser().setLastName(scanner.next());
+        String lastName = scanner.next();
         out.printf("%s: ", localeMessage("firstname"));
-        test.getUser().setFirstName(scanner.next());
+        test.setUser(new User(lastName, scanner.next()));
         out.printf("%n%s %tT%n%s", localeMessage("startedAt"), new Date(), LINE_SEPERATOR);
         int i = 1;
         for (Question question : test.getQuestions()) {
