@@ -1,0 +1,16 @@
+spring:
+  messages:
+    basename: i18n/appmessages, i18n/questions
+    encoding: UTF-8
+  shell:
+    interactive:
+      enabled: false
+
+application:
+  locale: ru-RU
+  testType: RANDOM_FULL
+  questions:
+    source:
+      type: message-source
+      file: questions.csv
+  passingScore: 3
