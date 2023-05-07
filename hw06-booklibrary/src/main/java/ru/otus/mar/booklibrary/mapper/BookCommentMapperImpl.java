@@ -13,11 +13,13 @@ public class BookCommentMapperImpl implements BookCommentMapper {
 
     @Override
     public BookCommentDto toDto(BookComment comment) {
-        return new BookCommentDto(comment.getId(), bookMapper.toDto(comment.getBook()), comment.getComment());
+        return comment == null ? null
+                : new BookCommentDto(comment.getId(), bookMapper.toDto(comment.getBook()), comment.getComment());
     }
 
     @Override
     public BookComment fromDto(BookCommentDto comment) {
-        return new BookComment(comment.id(), bookMapper.fromDto(comment.book()), comment.comment());
+        return comment == null ? null
+                : new BookComment(comment.id(), bookMapper.fromDto(comment.book()), comment.comment());
     }
 }

@@ -9,11 +9,11 @@ public class GenreMapperImpl implements GenreMapper {
 
     @Override
     public GenreDto toDto(Genre genre) {
-        return new GenreDto(genre.getId(), genre.getName());
+        return genre == null ? null : new GenreDto(genre.getId(), genre.getName());
     }
 
     @Override
     public Genre fromDto(GenreDto genre) {
-        return new Genre(genre.id(), genre.name());
+        return genre == null ? null : new Genre(genre.id(), genre.name());
     }
 }

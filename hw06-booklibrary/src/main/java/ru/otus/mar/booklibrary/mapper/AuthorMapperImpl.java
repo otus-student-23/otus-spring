@@ -9,11 +9,11 @@ public class AuthorMapperImpl implements AuthorMapper {
 
     @Override
     public AuthorDto toDto(Author author) {
-        return new AuthorDto(author.getId(), author.getName());
+        return author == null ? null : new AuthorDto(author.getId(), author.getName());
     }
 
     @Override
     public Author fromDto(AuthorDto author) {
-        return new Author(author.id(), author.name());
+        return author == null ? null : new Author(author.id(), author.name());
     }
 }
