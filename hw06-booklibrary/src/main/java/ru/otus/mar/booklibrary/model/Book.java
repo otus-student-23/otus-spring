@@ -26,7 +26,6 @@ public class Book {
     @UuidGenerator
     private UUID id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
     @ManyToOne

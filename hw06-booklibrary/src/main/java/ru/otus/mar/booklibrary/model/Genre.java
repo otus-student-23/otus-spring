@@ -24,7 +24,6 @@ public class Genre {
     @UuidGenerator
     private UUID id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
     public Genre(String name) {

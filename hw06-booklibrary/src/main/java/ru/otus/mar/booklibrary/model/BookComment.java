@@ -30,7 +30,6 @@ public class BookComment {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    @Column(nullable = false)
     private String comment;
 
     public BookComment(Book book, String comment) {

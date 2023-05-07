@@ -24,7 +24,6 @@ public class Author {
     @UuidGenerator
     private UUID id;
 
-    @Column(nullable = false, unique = true)
     private String name;
 
     public Author(String name) {
