@@ -15,7 +15,7 @@ import java.util.List;
 @ShellComponent
 public class GenreShell {
 
-    private final MainShell mainShell;
+    private final EntityProvider prompt;
 
     private final GenreService service;
 
@@ -27,7 +27,7 @@ public class GenreShell {
     @ShellMethod(value = "get genre", key = {"g g", "get genre"})
     public GenreDto get(@ShellOption(value = {"-n", "--name"}) String name) {
         GenreDto genre = service.getByName(name).get();
-        mainShell.selectEntity(genre, genre.name());
+        prompt.selectEntity(genre, genre.name());
         return genre;
     }
 
@@ -39,19 +39,19 @@ public class GenreShell {
     @ShellMethodAvailability(value = "isEntitySelected")
     @ShellMethod(value = "update selected genre", key = {"u g", "update genre"})
     public GenreDto update(@ShellOption(value = {"-n", "--name"}) String name) {
-        GenreDto genre = service.update(new GenreDto(((GenreDto) mainShell.getSelectedEntity()).id(), name));
-        mainShell.selectEntity(genre, genre.name());
+        GenreDto genre = service.update(new GenreDto(((GenreDto) prompt.getSelectedEntity()).id(), name));
+        prompt.selectEntity(genre, genre.name());
         return genre;
     }
 
     @ShellMethodAvailability(value = "isEntitySelected")
     @ShellMethod(value = "delete selected genre", key = {"d g", "delete genre"})
     public void delete() {
-        service.delete((GenreDto) mainShell.getSelectedEntity());
-        mainShell.reset();
+        service.delete((GenreDto) prompt.getSelectedEntity());
+        prompt.reset();
     }
 
     private Availability isEntitySelected() {
-        return mainShell.isEntityClassSelected(GenreDto.class);
+        return prompt.isEntityClassSelected(GenreDto.class);
     }
 }

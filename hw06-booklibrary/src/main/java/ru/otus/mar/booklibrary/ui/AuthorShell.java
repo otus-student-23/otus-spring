@@ -15,7 +15,7 @@ import java.util.List;
 @ShellComponent
 public class AuthorShell {
 
-    private final MainShell mainShell;
+    private final EntityProvider prompt;
 
     private final AuthorService service;
 
@@ -27,7 +27,7 @@ public class AuthorShell {
     @ShellMethod(value = "get author", key = {"g a", "get author"})
     public AuthorDto get(@ShellOption(value = {"-n", "--name"}) String name) {
         AuthorDto author = service.getByName(name).get();
-        mainShell.selectEntity(author, author.name());
+        prompt.selectEntity(author, author.name());
         return author;
     }
 
@@ -39,19 +39,19 @@ public class AuthorShell {
     @ShellMethodAvailability(value = "isEntitySelected")
     @ShellMethod(value = "update selected author", key = {"u a", "update author"})
     public AuthorDto update(@ShellOption(value = {"-n", "--name"}) String name) {
-        AuthorDto author = service.update(new AuthorDto(((AuthorDto) mainShell.getSelectedEntity()).id(), name));
-        mainShell.selectEntity(author, author.name());
+        AuthorDto author = service.update(new AuthorDto(((AuthorDto) prompt.getSelectedEntity()).id(), name));
+        prompt.selectEntity(author, author.name());
         return author;
     }
 
     @ShellMethodAvailability(value = "isEntitySelected")
     @ShellMethod(value = "delete selected author", key = {"d a", "delete author"})
     public void delete() {
-        service.delete((AuthorDto) mainShell.getSelectedEntity());
-        mainShell.reset();
+        service.delete((AuthorDto) prompt.getSelectedEntity());
+        prompt.reset();
     }
 
     private Availability isEntitySelected() {
-        return mainShell.isEntityClassSelected(AuthorDto.class);
+        return prompt.isEntityClassSelected(AuthorDto.class);
     }
 }

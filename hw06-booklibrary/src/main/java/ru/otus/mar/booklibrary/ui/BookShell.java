@@ -18,7 +18,7 @@ import java.util.List;
 @ShellComponent
 public class BookShell {
 
-    private final MainShell mainShell;
+    private final EntityProvider prompt;
 
     private final BookService bookService;
 
@@ -39,7 +39,7 @@ public class BookShell {
             @ShellOption(value = {"-a", "--author"}) String author
     ) {
         BookDto book = bookService.getByNameAndAuthor(name, authorService.getByName(author).get()).get();
-        mainShell.selectEntity(book, book.getName());
+        prompt.selectEntity(book, book.getName());
         return book;
     }
 
@@ -68,25 +68,25 @@ public class BookShell {
             @ShellOption(value = {"-a", "--author"}, defaultValue = ShellOption.NULL) String author,
             @ShellOption(value = {"-g", "--genre"}, defaultValue = ShellOption.NULL) String genre
     ) {
-        BookDto item = (BookDto) mainShell.getSelectedEntity();
+        BookDto item = (BookDto) prompt.getSelectedEntity();
         BookDto book = bookService.update(new BookDto(
                 item.getId(),
                 name == null ? item.getName() : name,
                 author == null ? item.getAuthor() : new AuthorDto(author),
                 genre == null ? item.getGenre() : new GenreDto(genre)
         ));
-        mainShell.selectEntity(book, book.getName());
+        prompt.selectEntity(book, book.getName());
         return book;
     }
 
     @ShellMethodAvailability(value = "isEntitySelected")
     @ShellMethod(value = "delete selected book", key = {"d b", "delete book"})
     public void delete() {
-        bookService.delete((BookDto) mainShell.getSelectedEntity());
-        mainShell.reset();
+        bookService.delete((BookDto) prompt.getSelectedEntity());
+        prompt.reset();
     }
 
     private Availability isEntitySelected() {
-        return mainShell.isEntityClassSelected(BookDto.class);
+        return prompt.isEntityClassSelected(BookDto.class);
     }
 }
