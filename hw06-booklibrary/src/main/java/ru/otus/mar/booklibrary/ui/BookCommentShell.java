@@ -54,8 +54,9 @@ public class BookCommentShell {
     @ShellMethodAvailability(value = "isEntitySelected")
     @ShellMethod(value = "delete selected comment", key = {"d c", "delete comment"})
     public void delete() {
-        service.delete((BookCommentDto) prompt.getSelectedEntity());
-        prompt.reset();
+        BookCommentDto comment = (BookCommentDto) prompt.getSelectedEntity();
+        service.delete(comment);
+        prompt.selectEntity(comment.book(), comment.book().getName());
     }
 
     private Availability isBookSelected() {

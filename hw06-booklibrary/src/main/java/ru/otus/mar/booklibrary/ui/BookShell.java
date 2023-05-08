@@ -68,12 +68,12 @@ public class BookShell {
             @ShellOption(value = {"-a", "--author"}, defaultValue = ShellOption.NULL) String author,
             @ShellOption(value = {"-g", "--genre"}, defaultValue = ShellOption.NULL) String genre
     ) {
-        BookDto item = (BookDto) prompt.getSelectedEntity();
+        BookDto entity = (BookDto) prompt.getSelectedEntity();
         BookDto book = bookService.update(new BookDto(
-                item.getId(),
-                name == null ? item.getName() : name,
-                author == null ? item.getAuthor() : new AuthorDto(author),
-                genre == null ? item.getGenre() : new GenreDto(genre)
+                entity.getId(),
+                name == null ? entity.getName() : name,
+                author == null ? entity.getAuthor() : new AuthorDto(author),
+                genre == null ? entity.getGenre() : new GenreDto(genre)
         ));
         prompt.selectEntity(book, book.getName());
         return book;

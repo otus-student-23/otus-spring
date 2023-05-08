@@ -4,7 +4,7 @@ import org.springframework.shell.Availability;
 
 public interface EntityProvider {
 
-    void selectEntity(Object item, String prompt);
+    void selectEntity(Object entity, String prompt);
 
     Object getSelectedEntity();
 

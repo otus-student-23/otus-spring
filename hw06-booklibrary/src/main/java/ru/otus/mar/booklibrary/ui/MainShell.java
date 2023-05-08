@@ -64,6 +64,6 @@ public class MainShell implements EntityProvider, PromptProvider {
     public Availability isEntityClassSelected(Class clazz) {
         return (entity != null && entity.getClass().equals(clazz))
                 ? Availability.available()
-                : Availability.unavailable("Please, select item with 'get' command");
+                : Availability.unavailable("Please, select entity with 'get' command");
     }
 }
