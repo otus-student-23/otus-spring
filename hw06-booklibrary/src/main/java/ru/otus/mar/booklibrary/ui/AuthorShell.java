@@ -48,7 +48,7 @@ public class AuthorShell {
     @ShellMethod(value = "delete selected author", key = {"d a", "delete author"})
     public void delete() {
         service.delete((AuthorDto) mainShell.getSelectedEntity());
-        mainShell.selectEntity(null, null);
+        mainShell.reset();
     }
 
     private Availability isEntitySelected() {

@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.otus.mar.booklibrary.dto.BookDto;
 import ru.otus.mar.booklibrary.model.Book;
 
+import java.util.ArrayList;
+
 @RequiredArgsConstructor
 @Service
 public class BookMapperImpl implements BookMapper {
@@ -29,7 +31,8 @@ public class BookMapperImpl implements BookMapper {
                 book.getId(),
                 book.getName(),
                 authorMapper.fromDto(book.getAuthor()),
-                genreMapper.fromDto(book.getGenre())
+                genreMapper.fromDto(book.getGenre()),
+                new ArrayList<>()
         );
     }
 }

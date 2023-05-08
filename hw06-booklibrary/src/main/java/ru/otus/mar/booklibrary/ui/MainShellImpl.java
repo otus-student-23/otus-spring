@@ -16,13 +16,14 @@ public class MainShellImpl implements MainShell, PromptProvider {
 
     private Object entity;
 
-    private String promt;
+    private String prompt;
 
     @ShellMethod(value = "console", key = {"c", "console"})
     public void console() throws Exception {
         Console.main();
     }
 
+    @Override
     @ShellMethod(value = "reset", key = {"r", "reset"})
     public void reset() {
         entity = null;
@@ -42,16 +43,16 @@ public class MainShellImpl implements MainShell, PromptProvider {
     public AttributedString getPrompt() {
         return (entity == null)
                 ? new AttributedString("shell:> ", AttributedStyle.DEFAULT.foreground(AttributedStyle.YELLOW))
-                : new AttributedString(promt, AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
+                : new AttributedString(prompt, AttributedStyle.DEFAULT.foreground(AttributedStyle.BLUE));
     }
 
     @Override
-    public void selectEntity(Object entity, String promt) {
+    public void selectEntity(Object entity, String prompt) {
         this.entity = entity;
-        this.promt = promt == null ? null : String.format(
+        this.prompt = prompt == null ? null : String.format(
                 "%s[%s]:> ",
                 entity.getClass().getSimpleName().substring(0, entity.getClass().getSimpleName().length() - 3),
-                promt.length() > 32 ? promt.substring(0, 32) + ".." : promt);
+                prompt.length() > 32 ? prompt.substring(0, 32) + ".." : prompt);
     }
 
     @Override

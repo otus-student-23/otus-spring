@@ -48,7 +48,7 @@ public class GenreShell {
     @ShellMethod(value = "delete selected genre", key = {"d g", "delete genre"})
     public void delete() {
         service.delete((GenreDto) mainShell.getSelectedEntity());
-        mainShell.selectEntity(null, null);
+        mainShell.reset();
     }
 
     private Availability isEntitySelected() {

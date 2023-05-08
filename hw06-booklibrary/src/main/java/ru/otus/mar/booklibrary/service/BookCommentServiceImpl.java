@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.mar.booklibrary.dao.BookCommentDao;
+import ru.otus.mar.booklibrary.dao.BookDao;
 import ru.otus.mar.booklibrary.dto.BookCommentDto;
 import ru.otus.mar.booklibrary.dto.BookDto;
 import ru.otus.mar.booklibrary.mapper.BookCommentMapper;
-import ru.otus.mar.booklibrary.mapper.BookMapper;
 
 import java.util.List;
 
@@ -19,7 +19,7 @@ public class BookCommentServiceImpl implements BookCommentService {
 
     private final BookCommentMapper mapper;
 
-    private final BookMapper bookMapper;
+    private final BookDao bookDao;
 
     @Override
     @Transactional
@@ -42,6 +42,6 @@ public class BookCommentServiceImpl implements BookCommentService {
     @Override
     @Transactional(readOnly = true)
     public List<BookCommentDto> getByBook(BookDto book) {
-        return dao.getByBook(bookMapper.fromDto(book)).stream().map(mapper::toDto).toList();
+        return bookDao.getById(book.getId()).getComments().stream().map(mapper::toDto).toList();
     }
 }

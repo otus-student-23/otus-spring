@@ -83,7 +83,7 @@ public class BookShell {
     @ShellMethod(value = "delete selected book", key = {"d b", "delete book"})
     public void delete() {
         bookService.delete((BookDto) mainShell.getSelectedEntity());
-        mainShell.selectEntity(null, null);
+        mainShell.reset();
     }
 
     private Availability isEntitySelected() {
