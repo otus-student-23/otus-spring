@@ -30,8 +30,4 @@ public class BookComment {
     private Book book;
 
     private String comment;
-
-    public BookComment(Book book, String comment) {
-        this(null, book, comment);
-    }
 }
