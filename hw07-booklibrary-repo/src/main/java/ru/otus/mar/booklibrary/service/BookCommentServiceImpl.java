@@ -40,6 +40,12 @@ public class BookCommentServiceImpl implements BookCommentService {
     }
 
     @Override
+    public List<BookCommentDto> getAll() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public List<BookCommentDto> getByBook(BookDto book) {
         return bookRepo.findById(book.getId()).get().getComments().stream().map(mapper::toDto).toList();
     }

@@ -2,18 +2,10 @@ package ru.otus.mar.booklibrary.service;
 
 import ru.otus.mar.booklibrary.dto.GenreDto;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface GenreService {
-
-    GenreDto create(GenreDto genre);
-
-    GenreDto update(GenreDto genre);
-
-    void delete(GenreDto genre);
-
-    List<GenreDto> getAll();
+public interface GenreService extends AbstractCrudService<GenreDto, UUID> {
 
     Optional<GenreDto> getByName(String name);
 }

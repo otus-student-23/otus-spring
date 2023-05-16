@@ -2,18 +2,10 @@ package ru.otus.mar.booklibrary.service;
 
 import ru.otus.mar.booklibrary.dto.AuthorDto;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface AuthorService {
-
-    AuthorDto create(AuthorDto author);
-
-    AuthorDto update(AuthorDto author);
-
-    void delete(AuthorDto author);
-
-    List<AuthorDto> getAll();
+public interface AuthorService extends AbstractCrudService<AuthorDto, UUID> {
 
     Optional<AuthorDto> getByName(String name);
 }

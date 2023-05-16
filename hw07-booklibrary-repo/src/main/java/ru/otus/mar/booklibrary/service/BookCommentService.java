@@ -4,14 +4,9 @@ import ru.otus.mar.booklibrary.dto.BookCommentDto;
 import ru.otus.mar.booklibrary.dto.BookDto;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface BookCommentService {
-
-    BookCommentDto create(BookCommentDto comment);
-
-    BookCommentDto update(BookCommentDto comment);
-
-    void delete(BookCommentDto comment);
+public interface BookCommentService extends AbstractCrudService<BookCommentDto, UUID> {
 
     List<BookCommentDto> getByBook(BookDto book);
 }

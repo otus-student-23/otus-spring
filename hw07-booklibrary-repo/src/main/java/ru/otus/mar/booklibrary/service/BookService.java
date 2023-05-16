@@ -5,16 +5,9 @@ import ru.otus.mar.booklibrary.dto.BookDto;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
-public interface BookService {
-
-    BookDto create(BookDto book);
-
-    BookDto update(BookDto book);
-
-    void delete(BookDto book);
-
-    List<BookDto> getAll();
+public interface BookService extends AbstractCrudService<BookDto, UUID> {
 
     Optional<BookDto> getByNameAndAuthor(String name, AuthorDto author);
 
