@@ -6,5 +6,4 @@ import ru.otus.mar.booklibrary.model.BookComment;
 import java.util.UUID;
 
 public interface BookCommentRepository extends JpaRepository<BookComment, UUID> {
-
 }

@@ -29,8 +29,7 @@ public class BookCommentShell {
     @ShellMethodAvailability(value = "isBookSelected")
     @ShellMethod(value = "list selected book comment", key = {"l c", "list comment"})
     public List<String> list() {
-        return service.getByBook((BookDto) prompt.getSelectedEntity()).stream().map(BookCommentDto::comment)
-                .toList();
+        return service.getByBook((BookDto) prompt.getSelectedEntity()).stream().map(BookCommentDto::comment).toList();
     }
 
     @ShellMethodAvailability(value = "isBookSelected")
