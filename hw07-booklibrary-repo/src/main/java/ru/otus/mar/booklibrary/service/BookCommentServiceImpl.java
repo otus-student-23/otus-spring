@@ -22,19 +22,16 @@ public class BookCommentServiceImpl implements BookCommentService {
     private final BookRepository bookRepo;
 
     @Override
-    @Transactional
     public BookCommentDto create(BookCommentDto comment) {
         return mapper.toDto(repo.save(mapper.fromDto(comment)));
     }
 
     @Override
-    @Transactional
     public BookCommentDto update(BookCommentDto comment) {
         return mapper.toDto(repo.save(mapper.fromDto(comment)));
     }
 
     @Override
-    @Transactional
     public void delete(BookCommentDto comment) {
         repo.deleteById(comment.id());
     }

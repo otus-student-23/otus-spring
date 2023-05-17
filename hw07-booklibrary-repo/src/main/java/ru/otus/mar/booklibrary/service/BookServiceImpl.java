@@ -32,11 +32,8 @@ public class BookServiceImpl implements BookService {
     private final GenreService genreService;
 
     @Override
-    @Transactional
     public BookDto create(BookDto book) {
-        book.setAuthor(authorService.create(book.getAuthor()));
-        book.setGenre(genreService.create(book.getGenre()));
-        return mapper.toDto(repo.save(mapper.fromDto(book)));
+        return update(book);
     }
 
     @Override
@@ -48,7 +45,6 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public void delete(BookDto book) {
         repo.deleteById(book.getId());
     }

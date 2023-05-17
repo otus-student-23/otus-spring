@@ -2,7 +2,6 @@ package ru.otus.mar.booklibrary.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.mar.booklibrary.dto.GenreDto;
 import ru.otus.mar.booklibrary.mapper.GenreMapper;
 import ru.otus.mar.booklibrary.repository.GenreRepository;
@@ -19,7 +18,6 @@ public class GenreServiceImpl implements GenreService {
     private final GenreMapper mapper;
 
     @Override
-    @Transactional
     public GenreDto create(GenreDto genre) {
         return genre.id() != null
                 ? genre
@@ -27,13 +25,11 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Override
-    @Transactional
     public GenreDto update(GenreDto genre) {
         return mapper.toDto(repo.save(mapper.fromDto(genre)));
     }
 
     @Override
-    @Transactional
     public void delete(GenreDto genre) {
         repo.deleteById(genre.id());
     }
