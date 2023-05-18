@@ -19,9 +19,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDto create(AuthorDto author) {
-        return author.id() != null
-                ? author
-                : mapper.toDto(repo.findByName(author.name()).orElseGet(() -> repo.save(mapper.fromDto(author))));
+        return mapper.toDto(repo.findByName(author.name()).orElseGet(() -> repo.save(mapper.fromDto(author))));
     }
 
     @Override

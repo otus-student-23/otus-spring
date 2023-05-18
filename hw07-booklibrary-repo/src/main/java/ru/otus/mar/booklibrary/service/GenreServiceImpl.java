@@ -19,9 +19,7 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public GenreDto create(GenreDto genre) {
-        return genre.id() != null
-                ? genre
-                : mapper.toDto(repo.findByName(genre.name()).orElseGet(() -> repo.save(mapper.fromDto(genre))));
+        return mapper.toDto(repo.findByName(genre.name()).orElseGet(() -> repo.save(mapper.fromDto(genre))));
     }
 
     @Override
