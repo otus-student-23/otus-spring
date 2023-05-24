@@ -1,0 +1,40 @@
+---------- АВТОРЫ ----------
+Полный список: l a
+Получить: g a -n '<author_name>'
+Добавить: a a -n '<author_name>'
+Изменить:
+   - получаем: g a -n '<author_name>'
+   - правим: u a -n '<new_author_name>'
+Удалить:
+   - получаем: g a -n '<author_name>'
+   - удаляем: d a
+
+---------- ЖАНРЫ ----------
+Полный список: l g
+Получить: g g -n '<genre_name>'
+Добавить: a g -n '<genre_name>'
+Изменить:
+   - получаем: g g -n '<genre_name>'
+   - правим: u g -n '<new_genre_name>'
+Удалить:
+   - получаем: g g -n '<genre_name>'
+   - удаляем: d g
+
+---------- КНИГИ ----------
+Полный список: l b
+Получить: g b -n '<book_name>' -a '<author_name>'
+Добавить: a b -n '<book_name>' -a '<author_name>' -g '<genre_name>'
+Изменить:
+   - получаем: g b -n '<book_name>' -a '<author_name>'
+   - правим: u b -n '<new_book_name>' -a '<new_author_name>' -g '<new_genre_name>'
+Удалить:
+   - получаем: g b -n '<book_name>' -a '<author_name>'
+   - удаляем: d b
+
+---------- КОММЕНТАРИИ К КНИГЕ ----------
+Список комментариев к книге:
+   - получаем книгу: g b -n '<book_name>' -a '<author_name>'
+   - список: l c
+Добавить комментарий к книге:
+   - получаем книгу: g b -n '<book_name>' -a '<author_name>'
+   - добавляем: a c -c '<comment>'
