@@ -53,9 +53,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    @Transactional
     public void delete(BookDto book) {
-        bookCommentRepo.deleteByBook(mapper.fromDto(book));
         bookRepo.deleteById(book.getId());
     }
 
