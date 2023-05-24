@@ -71,16 +71,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public List<BookDto> getByFilter(BookFilterDto filter) {
-        QBook qBook = new QBook("book");
         BooleanBuilder builder = new BooleanBuilder();
         if (filter.name() != null) {
-            builder.and(qBook.name.eq(filter.name()));
+            builder.and(QBook.book.name.eq(filter.name()));
         }
         if (filter.author() != null) {
-            builder.and(qBook.author.eq(authorRepo.findByName(filter.author()).get()));
+            builder.and(QBook.book.author.eq(authorRepo.findByName(filter.author()).get()));
         }
         if (filter.genre() != null) {
-            builder.and(qBook.genre.eq(genreRepo.findByName(filter.genre()).get()));
+            builder.and(QBook.book.genre.eq(genreRepo.findByName(filter.genre()).get()));
         }
         return ((List<Book>) bookRepo.findAll(builder.getValue())).stream().map(mapper::toDto).toList();
     }
