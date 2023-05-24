@@ -6,9 +6,8 @@ import ru.otus.mar.booklibrary.dto.BookFilterDto;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
-public interface BookService extends AbstractCrudService<BookDto, UUID> {
+public interface BookService extends AbstractCrudService<BookDto, String> {
 
     Optional<BookDto> getByNameAndAuthor(String name, AuthorDto author);
 

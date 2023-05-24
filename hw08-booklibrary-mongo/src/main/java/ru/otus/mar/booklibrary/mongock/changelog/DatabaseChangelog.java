@@ -7,7 +7,6 @@ import ru.otus.mar.booklibrary.model.Author;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.model.Genre;
 import ru.otus.mar.booklibrary.repository.AuthorRepository;
-import ru.otus.mar.booklibrary.repository.BookCommentRepository;
 import ru.otus.mar.booklibrary.repository.BookRepository;
 import ru.otus.mar.booklibrary.repository.GenreRepository;
 

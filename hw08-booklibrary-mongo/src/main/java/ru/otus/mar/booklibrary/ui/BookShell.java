@@ -8,6 +8,7 @@ import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
 import ru.otus.mar.booklibrary.dto.AuthorDto;
 import ru.otus.mar.booklibrary.dto.BookDto;
+import ru.otus.mar.booklibrary.dto.BookFilterDto;
 import ru.otus.mar.booklibrary.dto.GenreDto;
 import ru.otus.mar.booklibrary.service.AuthorService;
 import ru.otus.mar.booklibrary.service.BookService;
@@ -49,13 +50,9 @@ public class BookShell {
             @ShellOption(value = {"-a", "--author"}, defaultValue = ShellOption.NULL) String author,
             @ShellOption(value = {"-g", "--genre"}, defaultValue = ShellOption.NULL) String genre
     ) {
-        List<BookDto> result = bookService.getAll();
-        /*
         List<BookDto> result = (name == null && author == null && genre == null)
                 ? bookService.getAll()
                 : bookService.getByFilter(new BookFilterDto(name ,author, genre));
-        return result.stream().map(b -> List.of(b.getName(), b.getAuthor().name(), b.getGenre().name())).toList();
-        */
         return result.stream().map(b -> List.of(b.getName(), b.getAuthor().name(), b.getGenre().name())).toList();
     }
 
