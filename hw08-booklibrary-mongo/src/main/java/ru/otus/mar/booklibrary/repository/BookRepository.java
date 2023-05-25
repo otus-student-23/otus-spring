@@ -12,7 +12,7 @@ public interface BookRepository extends MongoRepository<Book, String>, QuerydslP
 
     Optional<Book> findByNameAndAuthor(String name, Author author);
 
-    Optional<Book> findFirstByAuthor(Author author);
+    boolean existsByAuthor(Author author);
 
-    Optional<Book> findFirstByGenre(Genre genre);
+    boolean existsByGenre(Genre genre);
 }

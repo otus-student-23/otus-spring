@@ -17,13 +17,11 @@ public class GenreConstraint extends AbstractMongoEventListener<Genre> {
     @Override
     public void onBeforeDelete(BeforeDeleteEvent<Genre> event) {
         super.onBeforeDelete(event);
-        bookRepo.findFirstByGenre(new Genre(event.getSource().get("_id").toString(), null))
-                .ifPresent(b -> {
-                    throw new ConstraintViolationException(String.format(
-                            "Referential integrity constraint violation: " +
-                                    "book DBRef(genre) references genre(_id) (_id '%s')",
-                            b.getGenre().getId()
-                    ));
-                });
+        if (bookRepo.existsByGenre(new Genre(event.getSource().get("_id").toString(), null))) {
+            throw new ConstraintViolationException(String.format(
+                    "Referential integrity constraint violation: book DBRef(genre) references genre(_id) (_id '%s')",
+                    event.getSource().get("_id").toString()
+            ));
+        }
     }
 }

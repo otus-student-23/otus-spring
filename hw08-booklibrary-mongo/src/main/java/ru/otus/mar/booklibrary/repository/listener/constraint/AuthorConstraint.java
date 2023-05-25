@@ -17,13 +17,11 @@ public class AuthorConstraint extends AbstractMongoEventListener<Author> {
     @Override
     public void onBeforeDelete(BeforeDeleteEvent<Author> event) {
         super.onBeforeDelete(event);
-        bookRepo.findFirstByAuthor(new Author(event.getSource().get("_id").toString(), null))
-                .ifPresent(b -> {
-                    throw new ConstraintViolationException(String.format(
-                            "Referential integrity constraint violation: " +
-                                    "book DBRef(author) references author(_id) (_id '%s')",
-                            b.getAuthor().getId()
-                    ));
-                });
+        if (bookRepo.existsByAuthor(new Author(event.getSource().get("_id").toString(), null))) {
+            throw new ConstraintViolationException(String.format(
+                    "Referential integrity constraint violation: book DBRef(author) references author(_id) (_id '%s')",
+                    event.getSource().get("_id").toString()
+            ));
+        }
     }
 }
