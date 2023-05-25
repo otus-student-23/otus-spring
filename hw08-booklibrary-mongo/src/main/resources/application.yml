@@ -4,7 +4,7 @@ spring:
       database: booklibrary
       port: 27017
       host: localhost
-      auto-index-creation: true
+      #auto-index-creation: true
 
 mongock:
   runner-type: "InitializingBean"
