@@ -1,4 +1,4 @@
-package ru.otus.mar.booklibrary.repository.listener.cascade;
+package ru.otus.mar.booklibrary.repository.listener;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.mongodb.core.mapping.event.AbstractMongoEventListener;
@@ -9,7 +9,7 @@ import ru.otus.mar.booklibrary.repository.BookCommentRepository;
 
 @Component
 @RequiredArgsConstructor
-public class BookCascade extends AbstractMongoEventListener<Book> {
+public class BookEventListener extends AbstractMongoEventListener<Book> {
 
     private final BookCommentRepository bookCommentRepo;
 

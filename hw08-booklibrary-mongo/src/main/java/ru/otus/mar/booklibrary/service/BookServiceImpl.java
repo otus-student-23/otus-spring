@@ -11,10 +11,7 @@ import ru.otus.mar.booklibrary.mapper.AuthorMapper;
 import ru.otus.mar.booklibrary.mapper.BookMapper;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.model.QBook;
-import ru.otus.mar.booklibrary.repository.AuthorRepository;
-import ru.otus.mar.booklibrary.repository.BookCommentRepository;
 import ru.otus.mar.booklibrary.repository.BookRepository;
-import ru.otus.mar.booklibrary.repository.GenreRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,19 +22,13 @@ public class BookServiceImpl implements BookService {
 
     private final BookRepository bookRepo;
 
-    private final BookCommentRepository bookCommentRepo;
-
     private final BookMapper mapper;
 
     private final AuthorService authorService;
 
-    private final AuthorRepository authorRepo;
-
     private final AuthorMapper authorMapper;
 
     private final GenreService genreService;
-
-    private final GenreRepository genreRepo;
 
     @Override
     public BookDto create(BookDto book) {
@@ -74,10 +65,10 @@ public class BookServiceImpl implements BookService {
             builder.and(QBook.book.name.eq(filter.name()));
         }
         if (filter.author() != null) {
-            builder.and(QBook.book.author.eq(authorRepo.findByName(filter.author()).get()));
+            builder.and(QBook.book.author.name.eq(filter.author()));
         }
         if (filter.genre() != null) {
-            builder.and(QBook.book.genre.eq(genreRepo.findByName(filter.genre()).get()));
+            builder.and(QBook.book.genre.name.eq(filter.genre()));
         }
         return ((List<Book>) bookRepo.findAll(builder.getValue())).stream().map(mapper::toDto).toList();
     }
