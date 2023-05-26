@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import ru.otus.mar.booklibrary.dto.BookCommentDto;
 import ru.otus.mar.booklibrary.dto.BookDto;
 import ru.otus.mar.booklibrary.mapper.BookCommentMapper;
-import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.repository.BookCommentRepository;
 
 import java.util.List;
@@ -40,6 +39,6 @@ public class BookCommentServiceImpl implements BookCommentService {
 
     @Override
     public List<BookCommentDto> getByBook(BookDto book) {
-        return repo.findByBook(new Book(book.getId(), null, null, null)).stream().map(mapper::toDto).toList();
+        return repo.findByBookId(book.getId()).stream().map(mapper::toDto).toList();
     }
 }

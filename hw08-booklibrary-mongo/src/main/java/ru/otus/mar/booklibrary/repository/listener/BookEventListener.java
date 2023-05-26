@@ -16,6 +16,6 @@ public class BookEventListener extends AbstractMongoEventListener<Book> {
     @Override
     public void onAfterDelete(AfterDeleteEvent<Book> event) {
         super.onAfterDelete(event);
-        bookCommentRepo.deleteByBook(new Book(event.getSource().get("_id").toString(), null, null, null));
+        bookCommentRepo.deleteByBookId(event.getSource().get("_id").toString());
     }
 }
