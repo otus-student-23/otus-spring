@@ -8,7 +8,8 @@
 <body>
 <h3>Автор:</h3>
 
-<form action="edit.html" th:method="post" th:action="@{edit(id=${author.id})}" th:object="${author}">
+<form action="edit.html" th:method="post" th:action="@{edit}" th:object="${author}">
+    <input name="id" type="hidden" th:value="*{id}"/>
     <div class="row">
         <label for="name">Наименование</label>
         <input id="name" name="name" type="text" value="Наименование" th:value="*{name}"/>

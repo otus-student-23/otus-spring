@@ -8,10 +8,12 @@
 <body>
 <h3>Комментарии к книге:</h3>
 
-<form action="edit.html" th:method="post" th:action="@{edit(id=${comment.id})}" th:object="${comment}">
+<form action="edit.html" th:method="post" th:action="@{edit}" th:object="${comment}">
+    <input name="id" type="hidden" th:value="*{id}"/>
+
     <div class="row">
         <label for="book.name">Книга</label>
-        <input id="book.id" name="book.id" type="hidden" value="00000000-0000-0000-0000-000000000000" th:value="*{book.id}"/>
+        <input id="book.id" name="book.id" type="hidden" th:value="*{book.id}"/>
         <input id="book.name" type="text" value="Книга" readonly th:value="*{book.name}"/>
     </div>
 
