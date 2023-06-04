@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Библиотека</title>
+</head>
+<body>
+<div th:text="${message}">Текст ошибки</div>
+<br/><input type="button" onclick="history.back();" value="<< Назад"/>
+<a href="index.html" th:href="@{/}">На главную</a>
+</body>
+</html>

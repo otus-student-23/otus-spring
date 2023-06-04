@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Библиотека</title>
+    <link href="../../static/style.css" rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<h3>Жанр:</h3>
+
+<form action="edit.html" th:method="post" th:action="@{edit(id=${genre.id})}" th:object="${genre}">
+    <div class="row">
+        <label for="name">Наименование</label>
+        <input id="name" name="name" type="text" value="Наименование" th:value="*{name}"/>
+    </div>
+    <button type="submit">Сохранить</button>
+    <a href="list.html" th:href="@{/genre}"><button type="button">Отмена</button></a>
+</form>
+
+</body>
+</html>
