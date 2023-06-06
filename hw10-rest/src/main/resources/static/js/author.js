@@ -1,68 +1,61 @@
-var saveDialog = document.getElementById('save-dialog');
-var saveForm = document.forms['save-form'];
+const saveDialog = document.getElementById('entity-dialog');
 
 document.getElementById('add-button').addEventListener('click', () => {
-    saveForm.reset();
-    document.getElementById("author.id").value = "";
-    document.getElementById("save-result").innerHTML = "";
+    resetEntityDialog();
+    document.getElementById('add-entity-button').style.display = '';
+    document.getElementById('entity-fieldset').disabled = false;
     saveDialog.showModal();
 });
 
 document.getElementById('list-button').addEventListener('click', () => {
-    loadData();
+    loadEntities();
 });
 
-document.getElementById('save-button-submit').addEventListener('click', () => {
-    if (!saveForm.checkValidity()) {
+saveDialog.addEventListener('close', (e) => {
+    if (saveDialog.returnValue === 'cancel' || !document.forms['entity-form'].checkValidity()) {
         //saveDialog.reportValidity();
         return;
     };
-    var author = {
-        id: document.getElementById('author.id').value,
-        name: document.getElementById('author.name').value
+    var entity = {
+        id: document.getElementById('entity.id').value,
+        name: document.getElementById('entity.name').value
     };
-    fetch('/api/author' + ((author.id === '') ? '' : '/' + author.id), {
-        method: (author.id === '') ? 'POST' : 'PUT',
+    fetch('/api/author' + ((entity.id === '') ? '' : '/' + entity.id), {
+        method: saveDialog.returnValue,
         headers: {
-            'accept': '*/*',
+            'accept': 'application/json',
             'Content-Type': 'application/json'
         },
-        body: JSON.stringify(author)
+        body: JSON.stringify(entity)
     })
     .then(response => {
         if (response.status === 200) {
-            loadData();
+            loadEntities();
         } else {
             console.log(response.text());
-            document.getElementById("save-result").innerHTML = response.status;
+            document.getElementById('entity-result').innerHTML = response.status;
             saveDialog.showModal();
         }
     });
 });
 
-document.getElementById('delete-button-submit').addEventListener('click', () => {
-    fetch('/api/author/' + document.getElementById('delete.author.id').value, {
-        method: 'DELETE'
-    })
-    .then(response => {
-        if (response.ok) {
-            loadData();
-        } else {
-            console.log(response.text());
-            document.getElementById("delete-result").innerHTML = response.status;
-            document.getElementById('delete-dialog').showModal();
-        }
-    });
-});
+function resetEntityDialog() {
+    document.forms['entity-form'].reset();
+    document.getElementById('add-entity-button').style.display = 'none';
+    document.getElementById('edit-entity-button').style.display = 'none';
+    document.getElementById('delete-entity-button').style.display = 'none';
+    document.getElementById('entity-result').innerHTML = '';
+    document.getElementById('entity-fieldset').disabled = true;
+    document.getElementById('entity.id').value = '';
+}
 
-function editEntity(id) {
-    saveForm.reset();
-    document.getElementById("save-result").innerHTML = "";
+function showEntity(id) {
+    resetEntityDialog();
     fetch('/api/author/' + id)
         .then(response => response.json())
         .then(json => {
-            document.getElementById("author.id").value = json.id;
-            document.getElementById("author.name").value = json.name;
+            document.getElementById('entity.id').value = json.id;
+            document.getElementById('entity.name').value = json.name;
             saveDialog.showModal();
         })
         .catch((error) => {
@@ -70,13 +63,18 @@ function editEntity(id) {
         });
 }
 
-function deleteEntity(id) {
-    document.getElementById("delete-result").innerHTML = "";
-    document.getElementById('delete.author.id').value = id;
-    document.getElementById('delete-dialog').showModal();
+function editEntity(id) {
+    showEntity(id);
+    document.getElementById('edit-entity-button').style.display = '';
+    document.getElementById('entity-fieldset').disabled = false;
 }
 
-function loadData() {
+function deleteEntity(id) {
+    showEntity(id);
+    document.getElementById('delete-entity-button').style.display = '';
+}
+
+function loadEntities() {
     fetch('/api/author')
         .then(response => response.json())
         .then(json => {
@@ -91,11 +89,13 @@ function loadData() {
                         </td>
                     </tr>`;
             })
-            document.getElementById('authors').innerHTML = rows;
+            document.getElementById('entities').innerHTML = rows;
         })
         .catch((error) => {
             console.log(error);
         });
 }
 
-loadData();
+window.onload = function() {
+    loadEntities();
+}

@@ -28,6 +28,6 @@ div.row {
     margin: 15px;
 }
 
-div.result-message {
+#entity-result {
 	color: red;
 }
