@@ -1,0 +1,33 @@
+table {
+    border-collapse: collapse;
+}
+
+tr, td, th {
+    padding: 5px;
+    border: 1px solid;
+}
+
+label {
+    display: inline-block;
+    width: 150px;
+}
+
+input {
+    width: 280px;
+}
+input:read-only {
+    background: LightGray;
+}
+
+textarea {
+    width: 500px;
+    height: 120px;
+}
+
+div.row {
+    margin: 15px;
+}
+
+div.resultMsg {
+	color: red;
+}

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Библиотека</title>
+    <link href="/style.css" rel="stylesheet"/>
+</head>
+<body>
+<h3><a href="/index.html">На главную</a></h3>
+<h2>Авторы</h2>
+
+<dialog id="save-dialog">
+    <form id="save-form" method="dialog">
+    <div class="row">
+        <label for="author.name">Наименование</label>
+        <input id="author.name" type="text" required/>
+    </div>
+    <div id="resultMsg" class="resultMsg">Текст ошибки</div>
+    <menu>
+        <button id="button-add-submit">Добавить</button>
+        <button id="button-add-cancel" formnovalidate>Отмена</button>
+    </menu>
+    </form>
+</dialog>
+<menu>
+    <button id="button-refresh">Обновить</button>
+    <button id="button-add">Добавить</button>
+</menu>
+
+<input/><button onclick='editEntity("7e29cccc-bca9-46d3-8dc5-65ca543997eb")'>Править</button><br><br>
+
+<table>
+    <thead>
+    <tr>
+        <th>Наименование</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody id="authors"><tr><td colspan="2">Нет данных</td></tr></tbody>
+</table>
+
+<script src="/js/author.js" type="text/javascript" charset="UTF-8"></script>
+
+</body>
+</html>
