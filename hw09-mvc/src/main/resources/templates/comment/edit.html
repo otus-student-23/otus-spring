@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Библиотека</title>
+    <link href="../../static/style.css" rel="stylesheet" th:href="@{/style.css}"/>
+</head>
+<body>
+<h3>Комментарии к книге:</h3>
+
+<form action="edit.html" th:method="post" th:action="@{edit}" th:object="${comment}">
+    <input name="id" type="hidden" th:value="*{id}"/>
+
+    <div class="row">
+        <label for="book.name">Книга</label>
+        <input id="book.id" name="book.id" type="hidden" th:value="*{book.id}"/>
+        <input id="book.name" type="text" value="Книга" readonly th:value="*{book.name}"/>
+    </div>
+
+    <div class="row">
+        <label for="comment">Комментарий</label>
+        <textarea id="comment" name="comment" th:field="*{comment}">Комментарий</textarea>
+    </div>
+
+    <button type="submit">Сохранить</button>
+    <a href="list.html" th:href="@{/comment(bookId=${comment.book.id})}"><button type="button">Отмена</button></a>
+</form>
+
+</body>
+</html>
