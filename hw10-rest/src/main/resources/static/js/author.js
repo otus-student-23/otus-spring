@@ -21,19 +21,20 @@ document.getElementById('save-button-submit').addEventListener('click', () => {
         id: document.getElementById('author.id').value,
         name: document.getElementById('author.name').value
     };
-    fetch('/api/author' + ((author.id == '') ? '' : '/' + author.id), {
-        method: (author.id == '') ? 'POST' : 'PUT',
+    fetch('/api/author' + ((author.id === '') ? '' : '/' + author.id), {
+        method: (author.id === '') ? 'POST' : 'PUT',
         headers: {
-            'accept': 'application/json',
+            'accept': '*/*',
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(author)
     })
     .then(response => {
-        if (response.ok) {
+        if (response.status === 200) {
             loadData();
         } else {
-            document.getElementById("save-result").innerHTML = response.text();//TODO отобразить ошибку из тела ответа
+            console.log(response.text());
+            document.getElementById("save-result").innerHTML = response.status;
             saveDialog.showModal();
         }
     });
@@ -47,7 +48,8 @@ document.getElementById('delete-button-submit').addEventListener('click', () => 
         if (response.ok) {
             loadData();
         } else {
-            document.getElementById("delete-result").innerHTML = response.text();//TODO отобразить ошибку из тела ответа
+            console.log(response.text());
+            document.getElementById("delete-result").innerHTML = response.status;
             document.getElementById('delete-dialog').showModal();
         }
     });

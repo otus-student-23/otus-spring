@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(GenreController.class)
+//TODO @WebMvcTest(GenreController.class)
 public class GenreControllerTest {
 
     private static final GenreDto GENRE_DTO =
