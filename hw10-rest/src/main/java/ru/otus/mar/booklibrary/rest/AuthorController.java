@@ -31,6 +31,12 @@ public class AuthorController {
         return service.getAll();
     }
 
+    @GetMapping("/api/author/{id}")
+    @Operation(summary = "Получить")
+    public AuthorDto get(@PathVariable UUID id) {
+        return service.get(id);
+    }
+
     @PostMapping("/api/author")
     @Operation(summary = "Добавить")
     public AuthorDto create(@RequestBody AuthorDto author) {

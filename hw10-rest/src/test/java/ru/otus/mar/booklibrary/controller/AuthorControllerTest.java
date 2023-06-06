@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.mar.booklibrary.dto.AuthorDto;
+import ru.otus.mar.booklibrary.rest.AuthorController;
 import ru.otus.mar.booklibrary.service.AuthorService;
 
 import java.util.List;

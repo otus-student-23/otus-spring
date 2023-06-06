@@ -1,24 +1,28 @@
 var saveDialog = document.getElementById('save-dialog');
 var saveForm = document.forms['save-form'];
 
-document.getElementById('button-add').addEventListener('click', () => {
+document.getElementById('add-button').addEventListener('click', () => {
     saveForm.reset();
-    //document.getElementById("resultMsg").innerHTML = "";//TODO remove
+    document.getElementById("author.id").value = "";
+    document.getElementById("save-result").innerHTML = "";
     saveDialog.showModal();
 });
 
-document.getElementById('button-refresh').addEventListener('click', () => {
-    reloadData();
+document.getElementById('list-button').addEventListener('click', () => {
+    loadData();
 });
 
-document.getElementById('button-add-submit').addEventListener('click', () => {
+document.getElementById('save-button-submit').addEventListener('click', () => {
     if (!saveForm.checkValidity()) {
         //saveDialog.reportValidity();
         return;
     };
-    var author = { name: document.getElementById('author.name').value };
-    fetch('/api/author', {
-        method: 'POST',
+    var author = {
+        id: document.getElementById('author.id').value,
+        name: document.getElementById('author.name').value
+    };
+    fetch('/api/author' + ((author.id == '') ? '' : '/' + author.id), {
+        method: (author.id == '') ? 'POST' : 'PUT',
         headers: {
             'accept': 'application/json',
             'Content-Type': 'application/json'
@@ -27,27 +31,50 @@ document.getElementById('button-add-submit').addEventListener('click', () => {
     })
     .then(response => {
         if (response.ok) {
-            //saveDialog.close();
-            reloadData();
+            loadData();
         } else {
-            document.getElementById("resultMsg").innerHTML = response.text();//TODO странная ошибка, не из тела ответа
-            saveDialog.showModal();//TODO почему-то форма после submit закрывается
+            document.getElementById("save-result").innerHTML = response.text();//TODO отобразить ошибку из тела ответа
+            saveDialog.showModal();
         }
     });
 });
 
-document.getElementById('button-add-cancel').addEventListener('click', () => {
-    saveDialog.close();
+document.getElementById('delete-button-submit').addEventListener('click', () => {
+    fetch('/api/author/' + document.getElementById('delete.author.id').value, {
+        method: 'DELETE'
+    })
+    .then(response => {
+        if (response.ok) {
+            loadData();
+        } else {
+            document.getElementById("delete-result").innerHTML = response.text();//TODO отобразить ошибку из тела ответа
+            document.getElementById('delete-dialog').showModal();
+        }
+    });
 });
 
 function editEntity(id) {
-    alert(id);
-}
-function deleteEntity(id) {
-    alert(id);
+    saveForm.reset();
+    document.getElementById("save-result").innerHTML = "";
+    fetch('/api/author/' + id)
+        .then(response => response.json())
+        .then(json => {
+            document.getElementById("author.id").value = json.id;
+            document.getElementById("author.name").value = json.name;
+            saveDialog.showModal();
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
-function reloadData() {
+function deleteEntity(id) {
+    document.getElementById("delete-result").innerHTML = "";
+    document.getElementById('delete.author.id').value = id;
+    document.getElementById('delete-dialog').showModal();
+}
+
+function loadData() {
     fetch('/api/author')
         .then(response => response.json())
         .then(json => {
@@ -63,10 +90,10 @@ function reloadData() {
                     </tr>`;
             })
             document.getElementById('authors').innerHTML = rows;
-            console.log(rows);//TODO remove
-        }).catch((error) => {
+        })
+        .catch((error) => {
             console.log(error);
         });
 }
 
-reloadData();
+loadData();

@@ -11,23 +11,33 @@
 
 <dialog id="save-dialog">
     <form id="save-form" method="dialog">
-    <div class="row">
-        <label for="author.name">Наименование</label>
-        <input id="author.name" type="text" required/>
-    </div>
-    <div id="resultMsg" class="resultMsg">Текст ошибки</div>
-    <menu>
-        <button id="button-add-submit">Добавить</button>
-        <button id="button-add-cancel" formnovalidate>Отмена</button>
-    </menu>
+        <input id="author.id" type="hidden"/>
+        <div class="row">
+            <label for="author.name">Наименование</label>
+            <input id="author.name" type="text" required/>
+        </div>
+        <div id="save-result" class="result-message">Текст ошибки</div>
+        <hr/>
+        <button id="save-button-submit">Сохранить</button>
+        <button formnovalidate>Отмена</button>
+    </form>
+</dialog>
+<dialog id="delete-dialog">
+    <form id="delete-form" method="dialog">
+        <input id="delete.author.id" type="hidden"/>
+        Подтвердите операцию
+        <div id="delete-result" class="result-message">Текст ошибки</div>
+        <hr/>
+        <button id="delete-button-submit">Удалить</button>
+        <button>Отмена</button>
     </form>
 </dialog>
 <menu>
-    <button id="button-refresh">Обновить</button>
-    <button id="button-add">Добавить</button>
+    <button id="list-button">Обновить</button>
+    <button id="add-button">Добавить</button>
 </menu>
 
-<input/><button onclick='editEntity("7e29cccc-bca9-46d3-8dc5-65ca543997eb")'>Править</button><br><br>
+<input/><br><br>
 
 <table>
     <thead>
