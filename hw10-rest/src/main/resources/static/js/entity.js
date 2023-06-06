@@ -1,3 +1,4 @@
+const api = document.getElementById('api').value;
 const saveDialog = document.getElementById('entity-dialog');
 
 document.getElementById('add-button').addEventListener('click', () => {
@@ -12,7 +13,7 @@ document.getElementById('list-button').addEventListener('click', () => {
 });
 
 saveDialog.addEventListener('close', (e) => {
-    if (saveDialog.returnValue === 'cancel' || !document.forms['entity-form'].checkValidity()) {
+    if (["PUT","POST","DELETE"].indexOf(saveDialog.returnValue) < 0 || !document.forms['entity-form'].checkValidity()) {
         //saveDialog.reportValidity();
         return;
     };
@@ -20,7 +21,7 @@ saveDialog.addEventListener('close', (e) => {
         id: document.getElementById('entity.id').value,
         name: document.getElementById('entity.name').value
     };
-    fetch('/api/author' + ((entity.id === '') ? '' : '/' + entity.id), {
+    fetch(api + ((entity.id === '') ? '' : '/' + entity.id), {
         method: saveDialog.returnValue,
         headers: {
             'accept': 'application/json',
@@ -51,7 +52,7 @@ function resetEntityDialog() {
 
 function showEntity(id) {
     resetEntityDialog();
-    fetch('/api/author/' + id)
+    fetch(api + '/' + id)
         .then(response => response.json())
         .then(json => {
             document.getElementById('entity.id').value = json.id;
@@ -75,7 +76,7 @@ function deleteEntity(id) {
 }
 
 function loadEntities() {
-    fetch('/api/author')
+    fetch(api)
         .then(response => response.json())
         .then(json => {
             let rows = '';
