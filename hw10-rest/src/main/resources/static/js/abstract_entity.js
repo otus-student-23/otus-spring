@@ -13,13 +13,15 @@ document.getElementById('list-button').addEventListener('click', () => {
 });
 
 saveDialog.addEventListener('close', (e) => {
-    if (["PUT","POST","DELETE"].indexOf(saveDialog.returnValue) < 0 || !document.forms['entity-form'].checkValidity()) {
+    var httpMethod = saveDialog.returnValue;
+    saveDialog.returnValue = "";
+    if (["PUT","POST","DELETE"].indexOf(httpMethod) < 0 || !document.forms['entity-form'].checkValidity()) {
         //saveDialog.reportValidity();
         return;
     };
     var entity = getEntityJson();
     fetch(api + ((entity.id === '') ? '' : '/' + entity.id), {
-        method: saveDialog.returnValue,
+        method: httpMethod,
         headers: {
             'accept': 'application/json',
             'Content-Type': 'application/json'
