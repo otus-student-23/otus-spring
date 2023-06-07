@@ -1,22 +1,70 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8"/>
     <title>Библиотека</title>
+    <link href="/style.css" rel="stylesheet"/>
+    <script src="/js/book.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="/js/abstract_entity.js" type="text/javascript" charset="UTF-8" defer></script>
 </head>
 <body>
+<ul id="menu">
+    <li><a href="index.html" class="active">Книги</a></li>
+    <li><a href="author.html">Авторы</a></li>
+    <li><a href="genre.html">Жанры</a></li>
+    <li><a href="h2-console" target="_blank">H2 Console</a></li>
+    <li><a href="swagger-ui.html" target="_blank">Swagger UI</a></li>
+</ul>
+
 <noscript>
     You need to enable JavaScript to run this app
 </noscript>
-<h2>Библиотека</h2>
-<h3>
-    <ul>
-        <li><a href="book.html">Книги</a></li>
-        <li><a href="author.html">Авторы</a></li>
-        <li><a href="genre.html">Жанры</a></li>
-        <li><a href="h2-console" target="_blank">H2 Console</a></li>
-        <li><a href="swagger-ui.html" target="_blank">Swagger UI</a></li>
-    </ul>
-</h3>
+
+<dialog id="entity-dialog">
+    <form id="entity-form" method="dialog">
+        <input id="entity.id" type="hidden"/>
+        <fieldset id="entity-fieldset">
+            <div class="row">
+                <label for="entity.name">Наименование</label>
+                <input id="entity.name" type="text" required/>
+            </div>
+            <div class="row">
+                <label for="author">Автор</label>
+                <input id="author" name="author" type="text" list="authors" required>
+                    <datalist id="authors"></datalist>
+                </input>
+            </div>
+            <div class="row">
+                <label for="genre">Жанр</label>
+                <input id="genre" name="genre" type="text" list="genres" required>
+                    <datalist id="genres"></datalist>
+                </input>
+            </div>
+        </fieldset>
+        <div id="entity-result">Текст ошибки</div>
+        <hr/>
+        <button id="add-entity-button" value="POST">Добавить</button>
+        <button id="edit-entity-button" value="PUT">Сохранить</button>
+        <button id="delete-entity-button" value="DELETE" formnovalidate>Удалить</button>
+        <button value="cancel" formnovalidate>Закрыть</button>
+    </form>
+</dialog>
+<menu>
+    <button id="list-button">Обновить</button>
+    <button id="add-button">Добавить</button>
+</menu>
+
+<table>
+    <thead>
+    <tr>
+        <th>Наименование</th>
+        <th>Автор</th>
+        <th>Жанр</th>
+        <th>Действия</th>
+    </tr>
+    </thead>
+    <tbody id="entities"><tr><td colspan="4">Нет данных</td></tr></tbody>
+</table>
+
 </body>
 </html>

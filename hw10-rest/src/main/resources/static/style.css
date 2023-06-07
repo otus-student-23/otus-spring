@@ -32,3 +32,30 @@ div.row {
 	color: red;
 	width: 500px;
 }
+
+#menu {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    border: 1px solid Black;
+    border-radius: 5px;
+    width: 730px;
+    text-align: center;
+    background-color: Gray;
+}
+#menu li { display: inline; }
+#menu a {
+    color: White;
+    padding: 5px 10px;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    width: 120px;
+}
+#menu a.active {
+    background-color: #383838;
+}
+#menu a:hover {
+    border-radius: 5px;
+    background-color: DimGray;
+}
