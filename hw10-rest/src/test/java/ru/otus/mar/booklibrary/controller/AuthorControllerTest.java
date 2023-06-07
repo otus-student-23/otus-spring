@@ -1,9 +1,11 @@
 package ru.otus.mar.booklibrary.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.mar.booklibrary.dto.AuthorDto;
 import ru.otus.mar.booklibrary.rest.AuthorController;
@@ -13,8 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(AuthorController.class)
@@ -29,48 +31,50 @@ public class AuthorControllerTest {
     @MockBean
     private AuthorService service;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @Test
     public void list() throws Exception {
         when(service.getAll()).thenReturn(List.of(AUTHOR_DTO));
-        mvc.perform(get("/author"))
+        mvc.perform(get("/api/author"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("author/list"))
-                .andExpect(model().attribute("authors", List.of(AUTHOR_DTO)));
+                .andExpect(content().json(mapper.writeValueAsString(List.of(AUTHOR_DTO))))
+                .andReturn();
     }
 
     @Test
-    public void add() throws Exception {
-        mvc.perform(post("/author/add")
-                        .flashAttr("author", AUTHOR_DTO))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/author"));
-        verify(service, times(1)).update(any(AuthorDto.class));
-    }
-
-    @Test
-    public void editPage() throws Exception {
-        when(service.get(AUTHOR_DTO.getId())).thenReturn(AUTHOR_DTO);
-        mvc.perform(get("/author/edit?id=" + AUTHOR_DTO.getId()))
+    public void apiPost() throws Exception {
+        when(service.create(any(AuthorDto.class))).thenReturn(AUTHOR_DTO);
+        mvc.perform(post("/api/author")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(AUTHOR_DTO)))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("author/edit"))
-                .andExpect(model().attribute("author", AUTHOR_DTO));
+                .andExpect(content().json(mapper.writeValueAsString(AUTHOR_DTO)))
+                .andReturn();
     }
 
     @Test
-    public void edit() throws Exception {
-        mvc.perform(post("/author/edit")
-                        .flashAttr("author", AUTHOR_DTO))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/author"));
-        verify(service, times(1)).update(any(AuthorDto.class));
+    public void apiPut() throws Exception {
+        when(service.update(any(AuthorDto.class))).thenReturn(AUTHOR_DTO);
+        mvc.perform(put("/api/author/" + AUTHOR_DTO.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(AUTHOR_DTO)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(mapper.writeValueAsString(AUTHOR_DTO)))
+                .andReturn();
     }
 
     @Test
-    public void delete() throws Exception {
-        mvc.perform(get("/author/delete?id=" + AUTHOR_DTO.getId())
-                        .flashAttr("author", AUTHOR_DTO))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/author"));
+    public void apiDelete() throws Exception {
+        mvc.perform(delete("/api/author/" + AUTHOR_DTO.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(AUTHOR_DTO)))
+                .andDo(print())
+                .andExpect(status().isOk());
         verify(service, times(1)).delete(AUTHOR_DTO.getId());
     }
 }

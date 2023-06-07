@@ -1,22 +1,25 @@
 package ru.otus.mar.booklibrary.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.mar.booklibrary.dto.GenreDto;
+import ru.otus.mar.booklibrary.rest.GenreController;
 import ru.otus.mar.booklibrary.service.GenreService;
 
 import java.util.List;
 import java.util.UUID;
 
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-//TODO @WebMvcTest(GenreController.class)
+@WebMvcTest(GenreController.class)
 public class GenreControllerTest {
 
     private static final GenreDto GENRE_DTO =
@@ -28,48 +31,50 @@ public class GenreControllerTest {
     @MockBean
     private GenreService service;
 
+    @Autowired
+    private ObjectMapper mapper;
+
     @Test
     public void list() throws Exception {
         when(service.getAll()).thenReturn(List.of(GENRE_DTO));
-        mvc.perform(get("/genre"))
+        mvc.perform(get("/api/genre"))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("genre/list"))
-                .andExpect(model().attribute("genres", List.of(GENRE_DTO)));
+                .andExpect(content().json(mapper.writeValueAsString(List.of(GENRE_DTO))))
+                .andReturn();
     }
 
     @Test
-    public void add() throws Exception {
-        mvc.perform(post("/genre/add")
-                        .flashAttr("genre", GENRE_DTO))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/genre"));
-        verify(service, times(1)).update(any(GenreDto.class));
-    }
-
-    @Test
-    public void editPage() throws Exception {
-        when(service.get(GENRE_DTO.getId())).thenReturn(GENRE_DTO);
-        mvc.perform(get("/genre/edit?id=" + GENRE_DTO.getId()))
+    public void apiPost() throws Exception {
+        when(service.create(any(GenreDto.class))).thenReturn(GENRE_DTO);
+        mvc.perform(post("/api/genre")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(GENRE_DTO)))
+                .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("genre/edit"))
-                .andExpect(model().attribute("genre", GENRE_DTO));
+                .andExpect(content().json(mapper.writeValueAsString(GENRE_DTO)))
+                .andReturn();
     }
 
     @Test
-    public void edit() throws Exception {
-        mvc.perform(post("/genre/edit")
-                        .flashAttr("genre", GENRE_DTO))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/genre"));
-        verify(service, times(1)).update(any(GenreDto.class));
+    public void apiPut() throws Exception {
+        when(service.update(any(GenreDto.class))).thenReturn(GENRE_DTO);
+        mvc.perform(put("/api/genre/" + GENRE_DTO.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(GENRE_DTO)))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().json(mapper.writeValueAsString(GENRE_DTO)))
+                .andReturn();
     }
 
     @Test
-    public void delete() throws Exception {
-        mvc.perform(get("/genre/delete?id=" + GENRE_DTO.getId())
-                        .flashAttr("genre", GENRE_DTO))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/genre"));
+    public void apiDelete() throws Exception {
+        mvc.perform(delete("/api/genre/" + GENRE_DTO.getId())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(mapper.writeValueAsString(GENRE_DTO)))
+                .andDo(print())
+                .andExpect(status().isOk());
         verify(service, times(1)).delete(GENRE_DTO.getId());
     }
 }

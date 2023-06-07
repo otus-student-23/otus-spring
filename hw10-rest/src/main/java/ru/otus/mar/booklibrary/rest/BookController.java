@@ -10,46 +10,46 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import ru.otus.mar.booklibrary.dto.AuthorDto;
-import ru.otus.mar.booklibrary.service.AuthorService;
+import ru.otus.mar.booklibrary.dto.BookDto;
+import ru.otus.mar.booklibrary.service.BookService;
 
 import java.util.List;
 import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
-@Tag(name = "Авторы", description = "Авторы")
-public class AuthorController {
+@Tag(name = "Книги", description = "Книги")
+public class BookController {
 
-    private final AuthorService service;
+    private final BookService service;
 
-    @GetMapping("/api/author")
+    @GetMapping("/api/book")
     @Operation(summary = "Список")
-    public List<AuthorDto> list() {
+    public List<BookDto> list() {
         return service.getAll();
     }
 
-    @GetMapping("/api/author/{id}")
+    @GetMapping("/api/book/{id}")
     @Operation(summary = "Получить")
-    public AuthorDto get(@PathVariable UUID id) {
+    public BookDto get(@PathVariable UUID id) {
         return service.get(id);
     }
 
-    @PostMapping("/api/author")
+    @PostMapping("/api/book")
     @Operation(summary = "Добавить")
-    public AuthorDto create(@RequestBody AuthorDto author) {
-        author.setId(null);
-        return service.create(author);
+    public BookDto create(@RequestBody BookDto book) {
+        book.setId(null);
+        return service.create(book);
     }
 
-    @PutMapping("/api/author/{id}")
+    @PutMapping("/api/book/{id}")
     @Operation(summary = "Изменить")
-    public AuthorDto update(@PathVariable UUID id, @RequestBody AuthorDto author) {
-        author.setId(id);
-        return service.update(author);
+    public BookDto update(@PathVariable UUID id, @RequestBody BookDto book) {
+        book.setId(id);
+        return service.update(book);
     }
 
-    @DeleteMapping("/api/author/{id}")
+    @DeleteMapping("/api/book/{id}")
     @Operation(summary = "Удалить")
     public void delete(@PathVariable UUID id) {
         service.delete(id);

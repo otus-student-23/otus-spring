@@ -23,7 +23,7 @@ public class ExceptionControllerAdvice {
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> dataIntegrityViolationException(DataIntegrityViolationException exception) {
-        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);//TODO заглушить текст ошибки
     }
 
     @ExceptionHandler(Exception.class)

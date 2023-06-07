@@ -1,9 +1,9 @@
-const api = document.getElementById('api').value;
 const saveDialog = document.getElementById('entity-dialog');
 
 document.getElementById('add-button').addEventListener('click', () => {
     resetEntityDialog();
     document.getElementById('add-entity-button').style.display = '';
+    document.getElementById('add-entity-button').disabled = false;
     document.getElementById('entity-fieldset').disabled = false;
     saveDialog.showModal();
 });
@@ -17,10 +17,7 @@ saveDialog.addEventListener('close', (e) => {
         //saveDialog.reportValidity();
         return;
     };
-    var entity = {
-        id: document.getElementById('entity.id').value,
-        name: document.getElementById('entity.name').value
-    };
+    var entity = getEntityJson();
     fetch(api + ((entity.id === '') ? '' : '/' + entity.id), {
         method: saveDialog.returnValue,
         headers: {
@@ -29,22 +26,28 @@ saveDialog.addEventListener('close', (e) => {
         },
         body: JSON.stringify(entity)
     })
-    .then(response => {
-        if (response.status === 200) {
-            loadEntities();
-        } else {
-            console.log(response.text());
-            document.getElementById('entity-result').innerHTML = response.status;
-            saveDialog.showModal();
-        }
-    });
+        .then(response => parseResponse(response))
+        .then(response => {
+            if (response.status === 200) {
+                loadEntities();
+            } else {
+                document.getElementById('entity-result').innerHTML = escapeHtml(response.data);
+                saveDialog.showModal();
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 });
 
 function resetEntityDialog() {
     document.forms['entity-form'].reset();
     document.getElementById('add-entity-button').style.display = 'none';
+    document.getElementById('add-entity-button').disabled = true;
     document.getElementById('edit-entity-button').style.display = 'none';
+    document.getElementById('edit-entity-button').disabled = true;
     document.getElementById('delete-entity-button').style.display = 'none';
+    document.getElementById('delete-entity-button').disabled = true;
     document.getElementById('entity-result').innerHTML = '';
     document.getElementById('entity-fieldset').disabled = true;
     document.getElementById('entity.id').value = '';
@@ -55,8 +58,7 @@ function showEntity(id) {
     fetch(api + '/' + id)
         .then(response => response.json())
         .then(json => {
-            document.getElementById('entity.id').value = json.id;
-            document.getElementById('entity.name').value = json.name;
+            fillEntityForm(json);
             saveDialog.showModal();
         })
         .catch((error) => {
@@ -67,30 +69,21 @@ function showEntity(id) {
 function editEntity(id) {
     showEntity(id);
     document.getElementById('edit-entity-button').style.display = '';
+    document.getElementById('edit-entity-button').disabled = false;
     document.getElementById('entity-fieldset').disabled = false;
 }
 
 function deleteEntity(id) {
     showEntity(id);
     document.getElementById('delete-entity-button').style.display = '';
+    document.getElementById('delete-entity-button').disabled = false;
 }
 
 function loadEntities() {
     fetch(api)
         .then(response => response.json())
         .then(json => {
-            let rows = '';
-            json.map(row => {
-                rows += `
-                    <tr>
-                        <td>${row.name}</td>
-                        <td>
-                            <button onclick='editEntity("${row.id}")'>Править</button>
-                            <button onclick='deleteEntity("${row.id}")'>Удалить</button>
-                        </td>
-                    </tr>`;
-            })
-            document.getElementById('entities').innerHTML = rows;
+            document.getElementById('entities').innerHTML = getEntitiesRows(json);
         })
         .catch((error) => {
             console.log(error);
@@ -99,4 +92,22 @@ function loadEntities() {
 
 window.onload = function() {
     loadEntities();
+}
+
+function parseResponse(response) {
+    return response.text().then(body => {
+        return {
+            status: response.status,
+            data: body
+        }
+    })
+}
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replace(/&/g, "&amp;")
+         .replace(/</g, "&lt;")
+         .replace(/>/g, "&gt;")
+         .replace(/"/g, "&quot;")
+         .replace(/'/g, "&#039;");
 }

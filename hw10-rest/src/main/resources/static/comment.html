@@ -4,20 +4,21 @@
     <meta charset="UTF-8"/>
     <title>Библиотека</title>
     <link href="/style.css" rel="stylesheet"/>
-    <script src="/js/author.js" type="text/javascript" charset="UTF-8"></script>
+    <script src="/js/comment.js" type="text/javascript" charset="UTF-8"></script>
     <script src="/js/abstract_entity.js" type="text/javascript" charset="UTF-8" defer></script>
 </head>
 <body>
 <h3><a href="/index.html">На главную</a></h3>
-<h2>Авторы</h2>
+<h2>Комментарии к книге</h2>
 
 <dialog id="entity-dialog">
     <form id="entity-form" method="dialog">
         <input id="entity.id" type="hidden"/>
+        <input id="book.id" type="hidden"/>
         <fieldset id="entity-fieldset">
             <div class="row">
-                <label for="entity.name">Наименование</label>
-                <input id="entity.name" type="text" required/>
+                <label for="entity.comment">Комментарий</label>
+                <input id="entity.comment" type="text" required/>
             </div>
         </fieldset>
         <div id="entity-result">Текст ошибки</div>
