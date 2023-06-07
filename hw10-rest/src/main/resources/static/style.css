@@ -36,26 +36,21 @@ div.row {
 #menu {
     margin: 0;
     padding: 0;
-    list-style-type: none;
-    border: 1px solid Black;
-    border-radius: 5px;
-    width: 730px;
-    text-align: center;
-    background-color: Gray;
 }
-#menu li { display: inline; }
+#menu li {
+    display: inline;
+}
 #menu a {
+    border-radius: 5px;
+    text-align: center;
     color: White;
-    padding: 5px 10px;
+    padding: 6px;
     text-decoration: none;
     font-weight: bold;
     display: inline-block;
     width: 120px;
+    background-color: #696969;
 }
 #menu a.active {
-    background-color: #383838;
-}
-#menu a:hover {
-    border-radius: 5px;
-    background-color: DimGray;
+    background-color: #282828;
 }
