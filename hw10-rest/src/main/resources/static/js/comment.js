@@ -17,6 +17,16 @@ function fillEntityForm(json) {
 }
 
 function getEntitiesRows(json) {
+    fetch('/api/book/' + (new URLSearchParams(window.location.search)).get('bookId'))
+        .then(response => response.json())
+        .then(json => {
+            document.getElementById('book').value = json.name;
+            document.getElementById('author').value = json.author.name;
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+
     let rows = '';
     json.map(row => {
         rows += `
