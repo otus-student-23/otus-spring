@@ -24,10 +24,6 @@ textarea {
     height: 120px;
 }
 
-div.row {
-    margin: 15px;
-}
-
 #entity-result {
 	color: red;
 	width: 500px;

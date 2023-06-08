@@ -16,30 +16,27 @@
     <li><a href="swagger-ui.html" target="_blank">Swagger UI</a></li>
 </ul>
 
-<div class="row">
+<p>
     <label for="book">Книга</label>
     <input id="book" type="text" readonly/>
-</div>
-<div class="row">
+</p>
+<p>
     <label for="author">Автор</label>
     <input id="author" type="text" readonly/>
-</div>
+</p>
 
 <dialog id="entity-dialog">
     <form id="entity-form" method="dialog">
         <input id="entity.id" type="hidden"/>
         <input id="book.id" type="hidden"/>
         <fieldset id="entity-fieldset">
-            <div class="row">
+            <p>
                 <label for="entity.comment">Комментарий</label>
                 <input id="entity.comment" type="text" required/>
-            </div>
+            </p>
         </fieldset>
-        <div id="entity-result">Текст ошибки</div>
-        <hr/>
-        <button id="add-entity-button" value="POST">Добавить</button>
-        <button id="edit-entity-button" value="PUT">Сохранить</button>
-        <button id="delete-entity-button" value="DELETE" formnovalidate>Удалить</button>
+        <div id="entity-result">Текст ошибки</div><hr>
+        <button id="submit-button">Применить</button>
         <button value="cancel" formnovalidate>Закрыть</button>
     </form>
 </dialog>

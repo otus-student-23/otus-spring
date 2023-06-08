@@ -20,16 +20,13 @@
     <form id="entity-form" method="dialog">
         <input id="entity.id" type="hidden"/>
         <fieldset id="entity-fieldset">
-            <div class="row">
+            <p>
                 <label for="entity.name">Наименование</label>
                 <input id="entity.name" type="text" required/>
-            </div>
+            </p>
         </fieldset>
-        <div id="entity-result">Текст ошибки</div>
-        <hr/>
-        <button id="add-entity-button" value="POST">Добавить</button>
-        <button id="edit-entity-button" value="PUT">Сохранить</button>
-        <button id="delete-entity-button" value="DELETE" formnovalidate>Удалить</button>
+        <div id="entity-result">Текст ошибки</div><hr>
+        <button id="submit-button">Применить</button>
         <button value="cancel" formnovalidate>Закрыть</button>
     </form>
 </dialog>

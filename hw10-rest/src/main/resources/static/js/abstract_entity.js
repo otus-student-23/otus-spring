@@ -1,9 +1,10 @@
 const saveDialog = document.getElementById('entity-dialog');
+const submitButton = document.getElementById('submit-button');
 
 document.getElementById('add-button').addEventListener('click', () => {
     resetEntityDialog();
-    document.getElementById('add-entity-button').style.display = '';
-    document.getElementById('add-entity-button').disabled = false;
+    submitButton.value = 'POST';
+    submitButton.innerHTML = 'Добавить';
     document.getElementById('entity-fieldset').disabled = false;
     saveDialog.showModal();
 });
@@ -44,12 +45,8 @@ saveDialog.addEventListener('close', (e) => {
 
 function resetEntityDialog() {
     document.forms['entity-form'].reset();
-    document.getElementById('add-entity-button').style.display = 'none';
-    document.getElementById('add-entity-button').disabled = true;
-    document.getElementById('edit-entity-button').style.display = 'none';
-    document.getElementById('edit-entity-button').disabled = true;
-    document.getElementById('delete-entity-button').style.display = 'none';
-    document.getElementById('delete-entity-button').disabled = true;
+    submitButton.value = '';
+    submitButton.innerHTML = 'Отменить';
     document.getElementById('entity-result').innerHTML = '';
     document.getElementById('entity-fieldset').disabled = true;
     document.getElementById('entity.id').value = '';
@@ -70,15 +67,15 @@ function showEntity(id) {
 
 function editEntity(id) {
     showEntity(id);
-    document.getElementById('edit-entity-button').style.display = '';
-    document.getElementById('edit-entity-button').disabled = false;
+    submitButton.value = 'PUT';
+    submitButton.innerHTML = 'Сохранить';
     document.getElementById('entity-fieldset').disabled = false;
 }
 
 function deleteEntity(id) {
     showEntity(id);
-    document.getElementById('delete-entity-button').style.display = '';
-    document.getElementById('delete-entity-button').disabled = false;
+    submitButton.value = 'DELETE';
+    submitButton.innerHTML = 'Удалить';
 }
 
 function loadEntities() {

@@ -24,28 +24,25 @@
     <form id="entity-form" method="dialog">
         <input id="entity.id" type="hidden"/>
         <fieldset id="entity-fieldset">
-            <div class="row">
+            <p>
                 <label for="entity.name">Наименование</label>
                 <input id="entity.name" type="text" required/>
-            </div>
-            <div class="row">
+            </p>
+            <p>
                 <label for="author">Автор</label>
                 <input id="author" name="author" type="text" list="authors" required>
                     <datalist id="authors"></datalist>
                 </input>
-            </div>
-            <div class="row">
+            </p>
+            <p>
                 <label for="genre">Жанр</label>
                 <input id="genre" name="genre" type="text" list="genres" required>
                     <datalist id="genres"></datalist>
                 </input>
-            </div>
+            </p>
         </fieldset>
-        <div id="entity-result">Текст ошибки</div>
-        <hr/>
-        <button id="add-entity-button" value="POST">Добавить</button>
-        <button id="edit-entity-button" value="PUT">Сохранить</button>
-        <button id="delete-entity-button" value="DELETE" formnovalidate>Удалить</button>
+        <div id="entity-result">Текст ошибки</div><hr>
+        <button id="submit-button">Применить</button>
         <button value="cancel" formnovalidate>Закрыть</button>
     </form>
 </dialog>
