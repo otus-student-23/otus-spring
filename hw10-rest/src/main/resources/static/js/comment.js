@@ -31,7 +31,7 @@ function getEntitiesRows(json) {
     json.map(row => {
         rows += `
             <tr>
-                <td>${row.comment}</td>
+                <td><pre>${row.comment}</pre></td>
                 <td>
                     <button onclick='editEntity("${row.id}")'>Править</button>
                     <button onclick='deleteEntity("${row.id}")'>Удалить</button>

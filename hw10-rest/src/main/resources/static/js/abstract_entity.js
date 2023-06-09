@@ -46,7 +46,7 @@ saveDialog.addEventListener('close', (e) => {
 function resetEntityDialog() {
     document.forms['entity-form'].reset();
     submitButton.value = '';
-    submitButton.innerHTML = 'Отменить';
+    submitButton.innerHTML = 'X';
     document.getElementById('entity-result').innerHTML = '';
     document.getElementById('entity-fieldset').disabled = true;
     document.getElementById('entity.id').value = '';

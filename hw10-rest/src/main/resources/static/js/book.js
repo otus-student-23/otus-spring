@@ -28,13 +28,13 @@ function getEntitiesRows(json) {
     json.map(row => {
         rows += `
             <tr>
-                <td>${row.name}</td>
+                <td><a href='#' onclick='showEntity("${row.id}")'>${row.name}</a></td>
                 <td>${row.author.name}</td>
                 <td>${row.genre.name}</td>
                 <td>
                     <a href='/comment.html?bookId=${row.id}'><button>Комментарии</button></a>
                     <button onclick='editEntity("${row.id}")'>Править</button>
-                    <button onclick='deleteEntity("${row.id}")'>Удалить</button>
+                    <button class='red' onclick='deleteEntity("${row.id}")'>Удалить</button>
                 </td>
             </tr>`;
     })

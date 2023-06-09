@@ -8,13 +8,13 @@
     <script src="/js/abstract_entity.js" type="text/javascript" charset="UTF-8" defer></script>
 </head>
 <body>
-<ul id="menu">
+<menu>
     <li><a href="index.html">Книги</a></li>
     <li><a href="author.html" class="active">Авторы</a></li>
     <li><a href="genre.html">Жанры</a></li>
     <li><a href="h2-console" target="_blank">H2 Console</a></li>
     <li><a href="swagger-ui.html" target="_blank">Swagger UI</a></li>
-</ul>
+</menu>
 
 <dialog id="entity-dialog">
     <form id="entity-form" method="dialog">
@@ -30,11 +30,11 @@
         <button value="cancel" formnovalidate>Закрыть</button>
     </form>
 </dialog>
-<menu>
-    <button id="list-button">Обновить</button>
-    <button id="add-button">Добавить</button>
-</menu>
 
+<p>
+    <button id="list-button">Обновить</button>
+    <button id="add-button" class="green">Добавить</button>
+</p>
 <table>
     <thead>
     <tr>

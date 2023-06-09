@@ -8,14 +8,15 @@
     <script src="/js/abstract_entity.js" type="text/javascript" charset="UTF-8" defer></script>
 </head>
 <body>
-<ul id="menu">
+<menu>
     <li><a href="index.html" class="active">Книги</a></li>
     <li><a href="author.html">Авторы</a></li>
     <li><a href="genre.html">Жанры</a></li>
     <li><a href="h2-console" target="_blank">H2 Console</a></li>
     <li><a href="swagger-ui.html" target="_blank">Swagger UI</a></li>
-</ul>
+</menu>
 
+<h3>Комментарии к книге:</h3>
 <p>
     <label for="book">Книга</label>
     <input id="book" type="text" readonly/>
@@ -30,21 +31,19 @@
         <input id="entity.id" type="hidden"/>
         <input id="book.id" type="hidden"/>
         <fieldset id="entity-fieldset">
-            <p>
-                <label for="entity.comment">Комментарий</label>
-                <input id="entity.comment" type="text" required/>
-            </p>
+            <p>Комментарий:</p>
+            <textarea id="entity.comment" name="comment" rows="8" cols="50" required></textarea>
         </fieldset>
         <div id="entity-result">Текст ошибки</div><hr>
         <button id="submit-button">Применить</button>
         <button value="cancel" formnovalidate>Закрыть</button>
     </form>
 </dialog>
-<menu>
+
+<p>
     <button id="list-button">Обновить</button>
     <button id="add-button">Добавить</button>
-</menu>
-
+</p>
 <table>
     <thead>
     <tr>
