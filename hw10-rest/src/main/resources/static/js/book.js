@@ -34,7 +34,7 @@ function getEntitiesRows(json) {
                 <td>
                     <a href='/comment.html?bookId=${row.id}'><button>Комментарии</button></a>
                     <button onclick='editEntity("${row.id}")'>Править</button>
-                    <button class='red' onclick='deleteEntity("${row.id}")'>Удалить</button>
+                    <button onclick='deleteEntity("${row.id}")'>Удалить</button>
                 </td>
             </tr>`;
     })
