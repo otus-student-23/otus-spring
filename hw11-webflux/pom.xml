@@ -41,30 +41,6 @@
             <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
         </dependency>
 
-        <!--dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo.spring27x</artifactId>
-            <version>4.6.1</version>
-        </dependency-->
-        <!--dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>3.5.4</version>
-            <-scope>test</scope->
-        </dependency-->
-
-        <!--dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo</artifactId>
-            <version>${flapdoodle.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>de.flapdoodle.embed</groupId>
-            <artifactId>de.flapdoodle.embed.mongo.spring30x</artifactId>
-            <version>${flapdoodle.version}</version>
-        </dependency-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-mongodb</artifactId>
@@ -79,18 +55,6 @@
             <artifactId>mongodb-springdata-v3-driver</artifactId>
             <version>${mongock.version}</version>
         </dependency>
-
-        <!--dependency>
-            <groupId>io.mongock</groupId>
-            <artifactId>mongock-springboot</artifactId>
-            <version>5.3.1</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.mongock</groupId>
-            <artifactId>mongodb-reactive-driver</artifactId>
-            <version>5.3.1</version>
-        </dependency-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>

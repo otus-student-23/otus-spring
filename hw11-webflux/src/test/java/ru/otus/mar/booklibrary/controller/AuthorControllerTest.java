@@ -1,80 +1,101 @@
 package ru.otus.mar.booklibrary.controller;
-/*
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import ru.otus.mar.booklibrary.dto.AuthorDto;
-import ru.otus.mar.booklibrary.rest.AuthorController;
-import ru.otus.mar.booklibrary.service.AuthorService;
+import ru.otus.mar.booklibrary.mapper.AuthorMapper;
+import ru.otus.mar.booklibrary.model.Author;
+import ru.otus.mar.booklibrary.repository.AuthorRepository;
 
-import java.util.List;
-import java.util.UUID;
-
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-*/
-//@WebMvcTest(AuthorController.class)
+
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@TestPropertySource(properties = {"mongock.enabled=false"})
 public class AuthorControllerTest {
-/*
+
+    private static final Author AUTHOR =
+            new Author("301c28f7-1793-45dd-91a1-8c0ec82d5beb", "author_a");
+
     private static final AuthorDto AUTHOR_DTO =
             new AuthorDto("301c28f7-1793-45dd-91a1-8c0ec82d5beb", "author_a");
 
-    @Autowired
-    private MockMvc mvc;
-
     @MockBean
-    private AuthorService service;
+    private AuthorRepository repo;
 
     @Autowired
-    private ObjectMapper mapper;
+    private AuthorMapper mapper;
+
+    @Autowired
+    private WebTestClient webTestClient;
 
     @Test
-    public void list() throws Exception {
-        when(service.getAll()).thenReturn(List.of(AUTHOR_DTO));
-        mvc.perform(get("/api/author"))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(List.of(AUTHOR_DTO))))
-                .andReturn();
+    public void list() {
+        when(repo.findAll()).thenReturn(Flux.just(AUTHOR));
+
+        webTestClient.get()
+                .uri("/api/author")
+                .exchange()
+                .expectStatus().isOk()
+                .expectBodyList(AuthorDto.class).contains(AUTHOR_DTO);
     }
 
     @Test
-    public void apiPost() throws Exception {
-        when(service.create(any(AuthorDto.class))).thenReturn(AUTHOR_DTO);
-        mvc.perform(post("/api/author")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(AUTHOR_DTO)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(AUTHOR_DTO)))
-                .andReturn();
+    public void get() {
+        when(repo.findById(AUTHOR.getId())).thenReturn(Mono.just(AUTHOR));
+
+        webTestClient.get()
+                .uri("/api/author/" + AUTHOR.getId())
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody(AuthorDto.class).isEqualTo(AUTHOR_DTO);
     }
 
     @Test
-    public void apiPut() throws Exception {
-        when(service.update(any(AuthorDto.class))).thenReturn(AUTHOR_DTO);
-        mvc.perform(put("/api/author/" + AUTHOR_DTO.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(AUTHOR_DTO)))
-                .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(content().json(mapper.writeValueAsString(AUTHOR_DTO)))
-                .andReturn();
+    public void create() {
+        when(repo.save(any(Author.class))).thenReturn(Mono.just(AUTHOR));
+
+        Flux<AuthorDto> result = webTestClient.post()
+                .uri("/api/author")
+                .bodyValue(AUTHOR_DTO)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .returnResult(AuthorDto.class)
+                .getResponseBody();
+        assertThat(result.blockLast()).isEqualTo(AUTHOR_DTO);
     }
 
     @Test
-    public void apiDelete() throws Exception {
-        mvc.perform(delete("/api/author/" + AUTHOR_DTO.getId())
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(mapper.writeValueAsString(AUTHOR_DTO)))
-                .andDo(print())
-                .andExpect(status().isOk());
-        verify(service, times(1)).delete(AUTHOR_DTO.getId());
-    }*/
+    public void update() {
+        when(repo.save(AUTHOR)).thenReturn(Mono.just(AUTHOR));
+
+        Flux<AuthorDto> result = webTestClient.put()
+                .uri("/api/author/" + AUTHOR.getId())
+                .bodyValue(AUTHOR_DTO)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .returnResult(AuthorDto.class)
+                .getResponseBody();
+        assertThat(result.blockLast()).isEqualTo(AUTHOR_DTO);
+    }
+
+    @Test
+    public void delete() {
+        when(repo.deleteById(anyString())).thenReturn(Mono.empty());
+
+        webTestClient.delete()
+                .uri("/api/author/" + AUTHOR.getId())
+                .exchange()
+                .expectStatus().isOk().expectBody().isEmpty();
+        verify(repo, times(1)).deleteById(AUTHOR.getId());
+    }
 }
