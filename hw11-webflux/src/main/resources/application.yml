@@ -1,0 +1,35 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      database: booklibrary
+      port: 27017
+      host: localhost
+      #auto-index-creation: true
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.mar.booklibrary.mongock.changelog
+
+logging:
+  level:
+    ROOT: error
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
+              convert:
+                MongoDatabaseFactoryReferenceLoader: TRACE
+    ru.otus.mar.booklibrary: DEBUG
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
