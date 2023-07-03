@@ -77,12 +77,12 @@ public class AuthorController {
     public Mono<AuthorDto> update(@PathVariable String id, @RequestBody AuthorDto author) {
         author.setId(id);
         return repo.save(mapper.fromDto(author))
-                .doOnNext(
+                .flatMap(
                         a -> mongoTemplate.updateMulti(
                                 Query.query(Criteria.where("author.id").is(a.getId())),
                                 Update.update("author", a),
                                 Book.class
-                        ).subscribe()
+                        ).map(r -> a)
                 ).map(mapper::toDto);
     }
 

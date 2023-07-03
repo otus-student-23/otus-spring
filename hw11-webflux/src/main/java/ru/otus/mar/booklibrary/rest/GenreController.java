@@ -76,12 +76,12 @@ public class GenreController {
     public Mono<GenreDto> update(@PathVariable String id, @RequestBody GenreDto genre) {
         genre.setId(id);
         return repo.save(mapper.fromDto(genre))
-                .doOnNext(
+                .flatMap(
                         g -> mongoTemplate.updateMulti(
                                 Query.query(Criteria.where("genre.id").is(g.getId())),
                                 Update.update("genre", g),
                                 Book.class
-                        ).subscribe()
+                        ).map(r -> g)
                 ).map(mapper::toDto);
     }
 
