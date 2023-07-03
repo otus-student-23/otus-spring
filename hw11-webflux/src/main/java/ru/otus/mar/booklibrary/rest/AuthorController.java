@@ -76,12 +76,14 @@ public class AuthorController {
     @Operation(summary = "Изменить")
     public Mono<AuthorDto> update(@PathVariable String id, @RequestBody AuthorDto author) {
         author.setId(id);
-        return repo.save(mapper.fromDto(author)).map(mapper::toDto)
-                .doOnSuccess(a -> mongoTemplate.updateMulti(
-                        Query.query(Criteria.where("author.id").is(a.getId())),
-                        Update.update("author", author),
-                        Book.class
-                ).subscribe());
+        return repo.save(mapper.fromDto(author))
+                .doOnNext(
+                        a -> mongoTemplate.updateMulti(
+                                Query.query(Criteria.where("author.id").is(a.getId())),
+                                Update.update("author", a),
+                                Book.class
+                        ).subscribe()
+                ).map(mapper::toDto);
     }
 
     @DeleteMapping("/api/author/{id}")

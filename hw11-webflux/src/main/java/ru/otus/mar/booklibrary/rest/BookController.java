@@ -94,7 +94,7 @@ public class BookController {
     @Operation(summary = "Удалить")
     public Mono<Void> delete(@PathVariable String id) {
         return bookRepo.deleteById(id)
-                .doOnSuccess(a -> mongoTemplate.remove(
+                .doOnSuccess(b -> mongoTemplate.remove(
                         Query.query(Criteria.where("book.id").is(id)), BookComment.class
                 ).subscribe());
     }
