@@ -77,16 +77,20 @@ public class BookController {
 
     @PutMapping("/api/book/{id}")
     @Operation(summary = "Изменить")
-    public Mono<BookDto> update(@PathVariable String id, @RequestBody() BookDto dto) {
-        Book book = mapper.fromDto(dto);
-        book.setId(id);
-        return authorRepo.findByName(book.getAuthor().getName())
-                .switchIfEmpty(authorRepo.insert(book.getAuthor()))
-                .doOnNext(book::setAuthor)
-                .flatMap(a -> genreRepo.findByName(book.getGenre().getName()))
-                .switchIfEmpty(genreRepo.insert(book.getGenre()))
-                .doOnNext(book::setGenre)
-                .flatMap(g -> bookRepo.save(book))
+    public Mono<BookDto> update(@PathVariable String id, @RequestBody() BookDto book) {
+        return Mono.just(book)
+                .doOnNext(d -> d.setId(id))
+                .map(mapper::fromDto)
+                .flatMap(b ->
+                        authorRepo.findByName(b.getAuthor().getName())
+                                .switchIfEmpty(authorRepo.save(b.getAuthor()))
+                                .doOnNext(b::setAuthor).thenReturn(b)
+                ).flatMap(b ->
+                        genreRepo.findByName(b.getGenre().getName())
+                                .switchIfEmpty(genreRepo.save(b.getGenre()))
+                                .doOnNext(b::setGenre).thenReturn(b)
+                )
+                .flatMap(bookRepo::save)
                 .map(mapper::toDto);
     }
 
