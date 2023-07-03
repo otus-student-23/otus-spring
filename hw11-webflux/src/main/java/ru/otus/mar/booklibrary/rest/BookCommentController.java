@@ -66,11 +66,12 @@ public class BookCommentController {
     @PostMapping("/api/book/{bookId}/comment")
     @Operation(summary = "Добавить")
     public Mono<BookCommentDto> create(@PathVariable String bookId, @RequestBody BookCommentDto comment) {
-        comment.setId(null);
-        BookDto book = new BookDto();
-        book.setId(bookId);
-        comment.setBook(book);
-        return repo.save(mapper.fromDto(comment)).map(mapper::toDto);
+        return Mono.just(comment)
+                .doOnNext(d -> d.setId(null))
+                .doOnNext(d -> d.setBook(new BookDto(bookId, null, null, null)))
+                .map(mapper::fromDto)
+                .flatMap(repo::save)
+                .map(mapper::toDto);
     }
 
     @PutMapping("/api/book/{bookId}/comment/{id}")
