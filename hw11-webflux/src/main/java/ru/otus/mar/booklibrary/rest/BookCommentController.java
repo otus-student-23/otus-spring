@@ -76,8 +76,11 @@ public class BookCommentController {
     @PutMapping("/api/book/{bookId}/comment/{id}")
     @Operation(summary = "Изменить")
     public Mono<BookCommentDto> update(@PathVariable String id, @RequestBody BookCommentDto comment) {
-        comment.setId(id);
-        return repo.save(mapper.fromDto(comment)).map(mapper::toDto);
+        return Mono.just(comment)
+                .doOnNext(d -> d.setId(id))
+                .map(mapper::fromDto)
+                .flatMap(repo::save)
+                .map(mapper::toDto);
     }
 
     @DeleteMapping("/api/book/{bookId}/comment/{id}")

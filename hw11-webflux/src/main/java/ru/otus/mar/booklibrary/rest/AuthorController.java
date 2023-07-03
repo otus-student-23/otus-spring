@@ -68,15 +68,20 @@ public class AuthorController {
     @PostMapping("/api/author")
     @Operation(summary = "Добавить")
     public Mono<AuthorDto> create(@RequestBody AuthorDto author) {
-        author.setId(null);
-        return repo.save(mapper.fromDto(author)).map(mapper::toDto);
+        return Mono.just(author)
+                .doOnNext(d -> d.setId(null))
+                .map(mapper::fromDto)
+                .flatMap(repo::save)
+                .map(mapper::toDto);
     }
 
     @PutMapping("/api/author/{id}")
     @Operation(summary = "Изменить")
     public Mono<AuthorDto> update(@PathVariable String id, @RequestBody AuthorDto author) {
-        author.setId(id);
-        return repo.save(mapper.fromDto(author))
+        return Mono.just(author)
+                .doOnNext(d -> d.setId(id))
+                .map(mapper::fromDto)
+                .flatMap(repo::save)
                 .flatMap(
                         a -> mongoTemplate.updateMulti(
                                 Query.query(Criteria.where("author.id").is(a.getId())),

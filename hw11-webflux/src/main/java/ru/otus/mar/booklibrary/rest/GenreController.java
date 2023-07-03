@@ -67,15 +67,20 @@ public class GenreController {
     @PostMapping("/api/genre")
     @Operation(summary = "Добавить")
     public Mono<GenreDto> create(@RequestBody GenreDto genre) {
-        genre.setId(null);
-        return repo.save(mapper.fromDto(genre)).map(mapper::toDto);
+        return Mono.just(genre)
+                .doOnNext(d -> d.setId(null))
+                .map(mapper::fromDto)
+                .flatMap(repo::save)
+                .map(mapper::toDto);
     }
 
     @PutMapping("/api/genre/{id}")
     @Operation(summary = "Изменить")
     public Mono<GenreDto> update(@PathVariable String id, @RequestBody GenreDto genre) {
-        genre.setId(id);
-        return repo.save(mapper.fromDto(genre))
+        return Mono.just(genre)
+                .doOnNext(d -> d.setId(id))
+                .map(mapper::fromDto)
+                .flatMap(repo::save)
                 .flatMap(
                         g -> mongoTemplate.updateMulti(
                                 Query.query(Criteria.where("genre.id").is(g.getId())),
