@@ -81,7 +81,7 @@ public class GenreController {
                                 Query.query(Criteria.where("genre.id").is(g.getId())),
                                 Update.update("genre", g),
                                 Book.class
-                        ).map(r -> g)
+                        ).thenReturn(g)
                 ).map(mapper::toDto);
     }
 

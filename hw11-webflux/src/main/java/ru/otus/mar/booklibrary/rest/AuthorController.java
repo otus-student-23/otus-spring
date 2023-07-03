@@ -82,7 +82,7 @@ public class AuthorController {
                                 Query.query(Criteria.where("author.id").is(a.getId())),
                                 Update.update("author", a),
                                 Book.class
-                        ).map(r -> a)
+                        ).thenReturn(a)
                 ).map(mapper::toDto);
     }
 

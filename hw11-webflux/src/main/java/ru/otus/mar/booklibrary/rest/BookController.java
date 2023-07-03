@@ -93,9 +93,8 @@ public class BookController {
     @DeleteMapping("/api/book/{id}")
     @Operation(summary = "Удалить")
     public Mono<Void> delete(@PathVariable String id) {
-        return bookRepo.deleteById(id)
-                .doOnSuccess(b -> mongoTemplate.remove(
-                        Query.query(Criteria.where("book.id").is(id)), BookComment.class
-                ).subscribe());
+        return bookRepo.deleteById(id).thenReturn(id)
+                .flatMap(b -> mongoTemplate.remove(Query.query(Criteria.where("book.id").is(id)), BookComment.class))
+                .then();
     }
 }
