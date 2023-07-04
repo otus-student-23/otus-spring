@@ -19,6 +19,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.mar.booklibrary.dto.GenreDto;
 import ru.otus.mar.booklibrary.dto.SseDto;
+import ru.otus.mar.booklibrary.exception.NotFoundException;
 import ru.otus.mar.booklibrary.mapper.GenreMapper;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.model.Genre;
@@ -61,7 +62,8 @@ public class GenreController {
     @GetMapping("/api/genre/{id}")
     @Operation(summary = "Получить")
     public Mono<GenreDto> get(@PathVariable String id) {
-        return repo.findById(id).map(mapper::toDto);
+        return repo.findById(id).map(mapper::toDto)
+                .switchIfEmpty(Mono.error(new NotFoundException()));;
     }
 
     @PostMapping("/api/genre")

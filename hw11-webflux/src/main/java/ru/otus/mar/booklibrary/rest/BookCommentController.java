@@ -17,6 +17,7 @@ import reactor.core.publisher.Mono;
 import ru.otus.mar.booklibrary.dto.BookCommentDto;
 import ru.otus.mar.booklibrary.dto.BookDto;
 import ru.otus.mar.booklibrary.dto.SseDto;
+import ru.otus.mar.booklibrary.exception.NotFoundException;
 import ru.otus.mar.booklibrary.mapper.BookCommentMapper;
 import ru.otus.mar.booklibrary.model.BookComment;
 import ru.otus.mar.booklibrary.repository.BookCommentRepository;
@@ -60,7 +61,8 @@ public class BookCommentController {
     @GetMapping("/api/book/{bookId}/comment/{id}")
     @Operation(summary = "Получить")
     public Mono<BookCommentDto> get(@PathVariable String bookId, @PathVariable String id) {
-        return repo.findById(id).map(mapper::toDto);
+        return repo.findById(id).map(mapper::toDto)
+                .switchIfEmpty(Mono.error(new NotFoundException()));
     }
 
     @PostMapping("/api/book/{bookId}/comment")

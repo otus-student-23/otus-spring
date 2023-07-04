@@ -18,6 +18,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.mar.booklibrary.dto.BookDto;
 import ru.otus.mar.booklibrary.dto.SseDto;
+import ru.otus.mar.booklibrary.exception.NotFoundException;
 import ru.otus.mar.booklibrary.mapper.BookMapper;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.model.BookComment;
@@ -66,7 +67,8 @@ public class BookController {
     @GetMapping("/api/book/{id}")
     @Operation(summary = "Получить")
     public Mono<BookDto> get(@PathVariable String id) {
-        return bookRepo.findById(id).map(mapper::toDto);
+        return bookRepo.findById(id).map(mapper::toDto)
+                .switchIfEmpty(Mono.error(new NotFoundException()));;
     }
 
     @PostMapping("/api/book")

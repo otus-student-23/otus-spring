@@ -6,9 +6,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import ru.otus.mar.booklibrary.exception.NotFoundException;
 
 @RestControllerAdvice
 public class ExceptionControllerAdvice {
+
+    @ExceptionHandler(NotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public ResponseEntity<String> notFoundException() {
+        return new ResponseEntity<>("Объект не найден", HttpStatus.NOT_FOUND);
+    }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
