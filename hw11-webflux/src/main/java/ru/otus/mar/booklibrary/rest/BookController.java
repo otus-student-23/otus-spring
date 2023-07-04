@@ -99,6 +99,6 @@ public class BookController {
     @DeleteMapping("/api/book/{id}")
     @Operation(summary = "Удалить")
     public Mono<Void> delete(@PathVariable String id) {
-        return bookRepo.deleteById(id).and(commentRepo.deleteByBookId(id));
+        return bookRepo.deleteById(id).then(commentRepo.deleteByBookId(id));
     }
 }
