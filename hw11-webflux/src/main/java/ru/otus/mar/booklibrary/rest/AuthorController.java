@@ -24,6 +24,7 @@ import ru.otus.mar.booklibrary.mapper.AuthorMapper;
 import ru.otus.mar.booklibrary.model.Author;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.repository.AuthorRepository;
+import ru.otus.mar.booklibrary.repository.BookRepository;
 
 import static com.mongodb.client.model.changestream.OperationType.DELETE;
 
@@ -33,6 +34,8 @@ import static com.mongodb.client.model.changestream.OperationType.DELETE;
 public class AuthorController {
 
     private final AuthorRepository repo;
+
+    private final BookRepository bookRepo;
 
     private final AuthorMapper mapper;
 
@@ -96,9 +99,6 @@ public class AuthorController {
     @DeleteMapping("/api/author/{id}")
     @Operation(summary = "Удалить")
     public Mono<Void> delete(@PathVariable String id) {
-        return repo.deleteById(id)
-                .doOnSuccess(a -> mongoTemplate.remove(
-                        Query.query(Criteria.where("author.id").is(id)), Book.class
-                ).subscribe());
+        return repo.deleteById(id).and(bookRepo.deleteByAuthorId(id));
     }
 }

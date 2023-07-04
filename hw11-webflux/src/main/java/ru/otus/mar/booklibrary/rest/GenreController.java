@@ -23,6 +23,7 @@ import ru.otus.mar.booklibrary.exception.NotFoundException;
 import ru.otus.mar.booklibrary.mapper.GenreMapper;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.model.Genre;
+import ru.otus.mar.booklibrary.repository.BookRepository;
 import ru.otus.mar.booklibrary.repository.GenreRepository;
 
 import static com.mongodb.client.model.changestream.OperationType.DELETE;
@@ -33,6 +34,8 @@ import static com.mongodb.client.model.changestream.OperationType.DELETE;
 public class GenreController {
     
     private final GenreRepository repo;
+
+    private final BookRepository bookRepo;
 
     private final GenreMapper mapper;
 
@@ -95,9 +98,6 @@ public class GenreController {
     @DeleteMapping("/api/genre/{id}")
     @Operation(summary = "Удалить")
     public Mono<Void> delete(@PathVariable String id) {
-        return repo.deleteById(id)
-                .doOnSuccess(a -> mongoTemplate.remove(
-                        Query.query(Criteria.where("genre.id").is(id)), Book.class
-                ).subscribe());
+        return repo.deleteById(id).and(bookRepo.deleteByGenreId(id));
     }
 }

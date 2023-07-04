@@ -5,8 +5,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.bson.BsonObjectId;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,8 +19,8 @@ import ru.otus.mar.booklibrary.dto.SseDto;
 import ru.otus.mar.booklibrary.exception.NotFoundException;
 import ru.otus.mar.booklibrary.mapper.BookMapper;
 import ru.otus.mar.booklibrary.model.Book;
-import ru.otus.mar.booklibrary.model.BookComment;
 import ru.otus.mar.booklibrary.repository.AuthorRepository;
+import ru.otus.mar.booklibrary.repository.BookCommentRepository;
 import ru.otus.mar.booklibrary.repository.BookRepository;
 import ru.otus.mar.booklibrary.repository.GenreRepository;
 
@@ -40,6 +38,8 @@ public class BookController {
     private final AuthorRepository authorRepo;
 
     private final GenreRepository genreRepo;
+
+    private final BookCommentRepository commentRepo;
 
     private final ReactiveMongoTemplate mongoTemplate;
 
@@ -99,8 +99,6 @@ public class BookController {
     @DeleteMapping("/api/book/{id}")
     @Operation(summary = "Удалить")
     public Mono<Void> delete(@PathVariable String id) {
-        return bookRepo.deleteById(id).thenReturn(id)
-                .flatMap(b -> mongoTemplate.remove(Query.query(Criteria.where("book.id").is(id)), BookComment.class))
-                .then();
+        return bookRepo.deleteById(id).and(commentRepo.deleteByBookId(id));
     }
 }

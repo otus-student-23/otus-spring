@@ -81,9 +81,9 @@ public class BookControllerTest {
     @Test
     public void create() {
         when(authorRepo.findByName(anyString())).thenReturn(Mono.just(BOOK.getAuthor()));
-        when(authorRepo.insert(any(Author.class))).thenReturn(Mono.just(BOOK.getAuthor()));
+        when(authorRepo.save(any(Author.class))).thenReturn(Mono.just(BOOK.getAuthor()));
         when(genreRepo.findByName(anyString())).thenReturn(Mono.just(BOOK.getGenre()));
-        when(genreRepo.insert(any(Genre.class))).thenReturn(Mono.just(BOOK.getGenre()));
+        when(genreRepo.save(any(Genre.class))).thenReturn(Mono.just(BOOK.getGenre()));
         when(bookRepo.save(any(Book.class))).thenReturn(Mono.just(BOOK));
 
         Flux<BookDto> result = webTestClient.post()
@@ -100,9 +100,9 @@ public class BookControllerTest {
     @Test
     public void update() {
         when(authorRepo.findByName(anyString())).thenReturn(Mono.just(BOOK.getAuthor()));
-        when(authorRepo.insert(any(Author.class))).thenReturn(Mono.just(BOOK.getAuthor()));
+        when(authorRepo.save(any(Author.class))).thenReturn(Mono.just(BOOK.getAuthor()));
         when(genreRepo.findByName(anyString())).thenReturn(Mono.just(BOOK.getGenre()));
-        when(genreRepo.insert(any(Genre.class))).thenReturn(Mono.just(BOOK.getGenre()));
+        when(genreRepo.save(any(Genre.class))).thenReturn(Mono.just(BOOK.getGenre()));
         when(bookRepo.save(BOOK)).thenReturn(Mono.just(BOOK));
 
         Flux<BookDto> result = webTestClient.put()
