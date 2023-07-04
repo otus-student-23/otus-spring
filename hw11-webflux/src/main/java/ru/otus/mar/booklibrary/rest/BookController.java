@@ -68,7 +68,7 @@ public class BookController {
     @Operation(summary = "Получить")
     public Mono<BookDto> get(@PathVariable String id) {
         return bookRepo.findById(id).map(mapper::toDto)
-                .switchIfEmpty(Mono.error(new NotFoundException()));;
+                .switchIfEmpty(Mono.error(new NotFoundException()));
     }
 
     @PostMapping("/api/book")

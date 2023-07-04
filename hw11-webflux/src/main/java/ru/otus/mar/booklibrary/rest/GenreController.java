@@ -63,7 +63,7 @@ public class GenreController {
     @Operation(summary = "Получить")
     public Mono<GenreDto> get(@PathVariable String id) {
         return repo.findById(id).map(mapper::toDto)
-                .switchIfEmpty(Mono.error(new NotFoundException()));;
+                .switchIfEmpty(Mono.error(new NotFoundException()));
     }
 
     @PostMapping("/api/genre")
