@@ -18,7 +18,12 @@ function addAuthDialog() {
             </form>
         </dialog>`
     );
-    document.getElementById('auth-dialog').addEventListener('close', (e) => {
+
+    document.getElementById('auth-dialog').addEventListener('cancel', (event) => {
+        event.preventDefault();
+    });
+
+    document.getElementById('auth-dialog').addEventListener('close', (event) => {
         fetch('/login.html', {
                 method: 'POST',
                 headers: {
