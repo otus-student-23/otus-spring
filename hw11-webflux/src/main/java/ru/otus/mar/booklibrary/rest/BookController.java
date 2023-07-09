@@ -26,6 +26,7 @@ import ru.otus.mar.booklibrary.repository.GenreRepository;
 
 import static com.mongodb.client.model.changestream.OperationType.DELETE;
 
+//https://projectreactor.io/docs/core/release/reference/index.html#which-operator
 @RestController
 @RequiredArgsConstructor
 @Tag(name = "Книги", description = "Книги")
