@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+application:
+  emulate_fault: true
+
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driverClassName: org.h2.Driver
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+      schema-locations: classpath:schema.sql
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  h2:
+    console:
+      enabled: true
+      settings:
+        web-allow-others: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+  server:
+    port: 8080
+
+springdoc:
+  show-actuator: true
+
+hystrix:
+  dashboard:
+    proxy-stream-allow-list: "*"
+  command.default.execution.isolation.thread.timeoutInMilliseconds: 2000
+
+logging:
+  level:
+    ROOT: INFO
+    ru.otus.mar.booklibrary: DEBUG
+  file:
+    name: "logs/booklibrary.log"
