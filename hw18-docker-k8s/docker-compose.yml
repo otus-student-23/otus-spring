@@ -1,0 +1,68 @@
+version: "3.3"
+services:
+
+  db:
+    image: postgres:14.7-alpine
+    container_name: db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+
+  config:
+    container_name: config
+    build:
+      context: config-server
+      dockerfile: Dockerfile
+    environment:
+      DISCOVERY_URL: http://discovery:8761/eureka/
+    ports:
+      - "8888:8888"
+
+  discovery:
+    container_name: discovery
+    build:
+      context: discovery-server
+    environment:
+      CONFIG_URL: http://config:8888/
+      CONFIG_LABEL: default
+    ports:
+      - "8761:8761"
+    restart: always
+    depends_on:
+      - config
+
+  gateway:
+    container_name: gateway
+    build:
+      context: gateway-server
+    environment:
+      CONFIG_URL: http://config:8888/
+      CONFIG_LABEL: default
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - discovery
+
+  booklibrary:
+    container_name: booklibrary
+    build:
+      context: booklibrary-microservice
+    environment:
+      - CONFIG_URL=http://config:8888/
+      - CONFIG_LABEL=default
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    depends_on:
+      - gateway
+
+  web:
+    container_name: web
+    build:
+      context: web-client
+    ports:
+      - "80:80"

@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: k8s-config-server
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /config/(.*)
+            #pathType: Prefix
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: k8s-config-server
+                port:
+                  number: 8888

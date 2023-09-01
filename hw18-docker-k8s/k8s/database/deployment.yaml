@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-database
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-database
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: k8s-database
+    spec:
+      containers:
+        - image: postgres:14.7-alpine
+          name: k8s-database
+          ports:
+            - containerPort: 5432
+          envFrom:
+            - configMapRef:
+                name: k8-database

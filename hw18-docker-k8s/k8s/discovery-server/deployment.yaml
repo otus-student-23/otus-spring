@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: k8s-discovery-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: k8s-discovery-server
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: k8s-discovery-server
+    spec:
+      containers:
+        - image: docker.io/library/k8s-discovery-server-image:0.0.20
+          name: k8s-discovery-server
+          ports:
+            - containerPort: 8761
+          envFrom:
+            - configMapRef:
+                name: k8-discovery-server
+          readinessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/readiness
+              port: 8761
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+          livenessProbe:
+            failureThreshold: 3
+            httpGet:
+              path: /actuator/health/liveness
+              port: 8761
+            periodSeconds: 10
+            successThreshold: 1
+            timeoutSeconds: 1
+            initialDelaySeconds: 10
+          imagePullPolicy: Never
+      #imagePullSecrets:
+        #- name: regcred

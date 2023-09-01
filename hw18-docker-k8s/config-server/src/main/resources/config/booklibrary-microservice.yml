@@ -1,0 +1,10 @@
+eureka:
+  instance:
+    hostName: ${spring.application.name}
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      #TODO сделать через профили k8s/docker-compose из env
+      defaultZone: http://discovery:8761/eureka/
+      #defaultZone: http://k8s-discovery-server.default.svc.cluster.local:8761/eureka/
