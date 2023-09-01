@@ -15,7 +15,6 @@
     <description>booklibrary-microservice</description>
 
     <properties>
-        <h2.version>2.1.214</h2.version>
         <springdoc.version>1.7.0</springdoc.version>
         <testcontainers.version>1.15.3</testcontainers.version>
     </properties>
