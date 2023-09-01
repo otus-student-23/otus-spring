@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
   name: k8-booklibrary-microservice
 data:
+  SPRING_PROFILES_ACTIVE: k8s
   CONFIG_URL: http://k8s-config-server.default.svc.cluster.local:8888/
   CONFIG_LABEL: default
   SPRING_DATASOURCE_URL: jdbc:postgresql://k8s-database.default.svc.cluster.local:5432/db

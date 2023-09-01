@@ -1,0 +1,24 @@
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://k8s-discovery-server.default.svc.cluster.local:8761/eureka/
+
+spring:
+  cloud:
+    gateway:
+      routes:
+        - id: web
+          uri: http://k8s-web-client.default.svc.cluster.local
+          predicates:
+            - Path=/web/**
+        - id: api
+          uri: lb://booklibrary-microservice
+          predicates:
+            - Path=/api/**,/swagger-ui/**,/v3/**,/actuator/**
+        - id: root
+          uri: http://k8s-web-client.default.svc.cluster.local
+          predicates:
+            - Path=/
+          #https://www.baeldung.com/spring-cloud-gateway-url-rewriting
+          filters:
+            - RewritePath=/, /web/book.html

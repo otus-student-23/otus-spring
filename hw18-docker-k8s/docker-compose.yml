@@ -39,6 +39,7 @@ services:
     build:
       context: gateway-server
     environment:
+      SPRING_PROFILES_ACTIVE: compose
       CONFIG_URL: http://config:8888/
       CONFIG_LABEL: default
     ports:
@@ -52,6 +53,7 @@ services:
     build:
       context: booklibrary-microservice
     environment:
+      - SPRING_PROFILES_ACTIVE=compose
       - CONFIG_URL=http://config:8888/
       - CONFIG_LABEL=default
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
