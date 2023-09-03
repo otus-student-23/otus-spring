@@ -26,7 +26,12 @@ function addAuthDialog() {
     document.getElementById('auth-dialog').addEventListener('close', (event) => {
         fetch('/web/login.html', {
                 method: 'POST',
-                body: new FormData(document.getElementById('auth-form'))
+                //body: new FormData(document.getElementById('auth-form'))
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: 'username=' + encodeURIComponent(document.getElementsByName('username')[0].value) +
+                    '&password=' + encodeURIComponent(document.getElementsByName('password')[0].value)
             }).then(response => {
                 if (response.url.includes("error")) {
                     document.getElementById('auth-dialog').showModal();
