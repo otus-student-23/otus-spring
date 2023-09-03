@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-config-server
+  name: config
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k8s-config-server
+      app: config
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,11 +15,11 @@ spec:
   template:
     metadata:
       labels:
-        app: k8s-config-server
+        app: config
     spec:
       containers:
-        - image: docker.io/library/k8s-config-server-image:0.0.22
-          name: k8s-config-server
+        - image: docker.io/library/k8s-config-server-image:0.0.23
+          name: config
           ports:
             - containerPort: 8888
           readinessProbe:
@@ -40,5 +40,3 @@ spec:
             timeoutSeconds: 1
             initialDelaySeconds: 10
           imagePullPolicy: Never
-      #imagePullSecrets:
-        #- name: regcred

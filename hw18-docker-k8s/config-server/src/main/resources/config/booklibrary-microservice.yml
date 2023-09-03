@@ -4,3 +4,5 @@ eureka:
     preferIpAddress: true
   client:
     fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/

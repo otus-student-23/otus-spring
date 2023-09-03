@@ -25,6 +25,7 @@ services:
     container_name: discovery
     build:
       context: discovery-server
+      dockerfile: Dockerfile
     environment:
       CONFIG_URL: http://config:8888/
       CONFIG_LABEL: default
@@ -38,10 +39,11 @@ services:
     container_name: gateway
     build:
       context: gateway-server
+      dockerfile: Dockerfile
     environment:
-      SPRING_PROFILES_ACTIVE: compose
       CONFIG_URL: http://config:8888/
       CONFIG_LABEL: default
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
     ports:
       - "8080:8080"
     restart: always
@@ -52,8 +54,8 @@ services:
     container_name: booklibrary
     build:
       context: booklibrary-microservice
+      dockerfile: Dockerfile
     environment:
-      - SPRING_PROFILES_ACTIVE=compose
       - CONFIG_URL=http://config:8888/
       - CONFIG_LABEL=default
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
@@ -67,5 +69,6 @@ services:
     container_name: web
     build:
       context: web-client
+      dockerfile: Dockerfile
     ports:
       - "80:80"

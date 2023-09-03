@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-gateway-server
+  name: gateway
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k8s-gateway-server
+      app: gateway
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,16 +15,16 @@ spec:
   template:
     metadata:
       labels:
-        app: k8s-gateway-server
+        app: gateway
     spec:
       containers:
-        - image: docker.io/library/k8s-gateway-server-image:0.0.20
-          name: k8s-gateway-server
+        - image: docker.io/library/k8s-gateway-server-image:0.0.23
+          name: gateway
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: k8-gateway-server
+                name: gateway
           readinessProbe:
             failureThreshold: 3
             httpGet:
@@ -43,5 +43,3 @@ spec:
             timeoutSeconds: 1
             initialDelaySeconds: 10
           imagePullPolicy: Never
-      #imagePullSecrets:
-        #- name: regcred

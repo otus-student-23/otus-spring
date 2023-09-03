@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-web-client
+  name: web
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k8s-web-client
+      app: web
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,11 +15,11 @@ spec:
   template:
     metadata:
       labels:
-        app: k8s-web-client
+        app: web
     spec:
       containers:
-        - image: docker.io/library/k8s-web-client-image:0.0.20
-          name: k8s-web-client
+        - image: docker.io/library/k8s-web-client-image:0.0.23
+          name: web
           ports:
             - containerPort: 80
           imagePullPolicy: Never

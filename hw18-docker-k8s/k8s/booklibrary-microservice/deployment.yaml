@@ -1,12 +1,12 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: k8s-booklibrary-microservice
+  name: booklibrary
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: k8s-booklibrary-microservice
+      app: booklibrary
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -15,16 +15,16 @@ spec:
   template:
     metadata:
       labels:
-        app: k8s-booklibrary-microservice
+        app: booklibrary
     spec:
       containers:
-        - image: docker.io/library/k8s-booklibrary-microservice-image:0.0.20
-          name: k8s-booklibrary-microservice
+        - image: docker.io/library/k8s-booklibrary-microservice-image:0.0.23
+          name: booklibrary
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
-                name: k8-booklibrary-microservice
+                name: booklibrary
           readinessProbe:
             failureThreshold: 3
             httpGet:
