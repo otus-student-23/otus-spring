@@ -2,14 +2,21 @@ server:
   port: 8888
 
 spring:
-  profiles:
-    active: native
+  #profiles:
+    #active: native
   cloud:
     config:
       server:
         native:
           #search-locations: file:/var/config
           search-locations: classpath:/config
+        git:
+          uri: https://localhost/config-server-repo.git
+          clone-on-start: true
+          username: test
+          password: test
+          default-label: master
+          skip-ssl-validation: true
 
 management:
   server:

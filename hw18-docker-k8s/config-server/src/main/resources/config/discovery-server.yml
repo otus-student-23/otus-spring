@@ -13,7 +13,7 @@ eureka:
 
 management:
   server:
-    port: 8761
+    port: ${server.port}
   endpoints:
     enabled-by-default: false
   endpoint:

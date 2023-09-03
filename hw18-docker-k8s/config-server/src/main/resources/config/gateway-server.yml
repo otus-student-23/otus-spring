@@ -38,7 +38,7 @@ spring:
 
 management:
   server:
-    port: 8080
+    port: ${server.port}
   endpoints:
     enabled-by-default: false
   endpoint:

@@ -17,6 +17,7 @@ services:
       context: config-server
       dockerfile: Dockerfile
     environment:
+      SPRING_PROFILES_ACTIVE: native
       DISCOVERY_URL: http://discovery:8761/eureka/
     ports:
       - "8888:8888"

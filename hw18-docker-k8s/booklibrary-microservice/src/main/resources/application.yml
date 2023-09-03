@@ -35,7 +35,7 @@ management:
     defaults:
       enabled: true
   server:
-    port: 8080
+    port: ${server.port}
 
 springdoc:
   show-actuator: true
