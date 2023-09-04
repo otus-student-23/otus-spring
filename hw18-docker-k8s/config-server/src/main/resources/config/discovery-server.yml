@@ -1,0 +1,23 @@
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostName: ${spring.application.name}
+    preferIpAddress: true
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+#    register-with-eureka: true
+#    fetch-registry: false
+
+management:
+  server:
+    port: ${server.port}
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      probes:
+        enabled: true
