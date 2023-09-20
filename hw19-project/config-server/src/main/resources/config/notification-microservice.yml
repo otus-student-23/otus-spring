@@ -1,0 +1,17 @@
+eureka:
+  instance:
+    hostName: ${spring.application.name}
+    preferIpAddress: true
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+management:
+  endpoints:
+    enabled-by-default: false
+  endpoint:
+    health:
+      enabled: true
+      probes:
+        enabled: true

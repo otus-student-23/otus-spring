@@ -1,0 +1,2 @@
+#https://docs.spring.io/spring-security/reference/servlet/oauth2/login/core.html
+spring.security.oauth2.client.provider.keycloak.authorization-uri: http://localhost:8080/realms/BookLibrary/protocol/openid-connect/auth

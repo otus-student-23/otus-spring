@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+eureka.client.serviceUrl.defaultZone: http://localhost:8761/eureka/
+spring.security.oauth2.client.provider.keycloak.issuer-uri: http://localhost:8080/realms/BookLibrary
+
+logging:
+  level:
+    #ROOT: DEBUG
+    reactor:
+      netty: INFO
+    org:
+      springframework: DEBUG
