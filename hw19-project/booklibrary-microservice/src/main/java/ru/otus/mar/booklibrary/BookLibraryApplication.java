@@ -10,7 +10,5 @@ public class BookLibraryApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(BookLibraryApplication.class, args);
-        System.out.println("http://localhost:8081/api/library/author");
-        System.out.println("http://localhost:8082/lk/author.html");
     }
 }
