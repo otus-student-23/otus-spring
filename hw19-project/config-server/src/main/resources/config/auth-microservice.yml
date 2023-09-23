@@ -1,3 +1,17 @@
+eureka:
+  instance:
+    hostName: ${spring.application.name}
+    preferIpAddress: true
+    metadataMap:
+      prometheus:
+        scrape: true
+        path: "/actuator/prometheus"
+        port: ${server.port}
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
 spring:
   datasource:
     driverClassName: org.postgresql.Driver
@@ -28,12 +42,10 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,prometheus
   endpoint:
     health:
       show-details: always
   health:
     defaults:
       enabled: true
-springdoc:
-  show-actuator: true

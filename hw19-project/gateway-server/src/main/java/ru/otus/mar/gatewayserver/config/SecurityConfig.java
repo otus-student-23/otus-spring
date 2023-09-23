@@ -21,6 +21,7 @@ public class SecurityConfig {
                 .csrf().disable()
                 .headers().frameOptions().disable().and()//--- iframe
                 .authorizeExchange().pathMatchers("/").permitAll().and()
+                .authorizeExchange().pathMatchers("/actuator/**").permitAll().and()//TODO hasIpAddress("prometheus")
                 .authorizeExchange().pathMatchers("/swagger-ui/**", "/v3/**", "/api/**").permitAll().and()
                 .authorizeExchange().anyExchange().authenticated().and()
                 .oauth2Login().and()

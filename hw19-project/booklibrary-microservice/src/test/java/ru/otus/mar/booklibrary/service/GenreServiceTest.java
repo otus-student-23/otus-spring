@@ -2,9 +2,11 @@ package ru.otus.mar.booklibrary.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.mar.booklibrary.BasePersistenceTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.otus.mar.booklibrary.dto.GenreDto;
+import ru.otus.mar.booklibrary.mapper.GenreMapperImpl;
 import ru.otus.mar.booklibrary.model.Genre;
 import ru.otus.mar.booklibrary.repository.GenreRepository;
 
@@ -15,7 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class GenreServiceTest extends BasePersistenceTest {
+@SpringBootTest(classes = {GenreServiceImpl.class, GenreMapperImpl.class})
+@ActiveProfiles({"test"})
+public class GenreServiceTest {
 
     private static final GenreDto GENRE_DTO = new GenreDto("Genre_1");
 

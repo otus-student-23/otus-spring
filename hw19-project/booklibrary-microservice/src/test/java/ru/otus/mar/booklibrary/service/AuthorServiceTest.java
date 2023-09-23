@@ -2,9 +2,11 @@ package ru.otus.mar.booklibrary.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.mar.booklibrary.BasePersistenceTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.otus.mar.booklibrary.dto.AuthorDto;
+import ru.otus.mar.booklibrary.mapper.AuthorMapperImpl;
 import ru.otus.mar.booklibrary.model.Author;
 import ru.otus.mar.booklibrary.repository.AuthorRepository;
 
@@ -15,7 +17,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class AuthorServiceTest extends BasePersistenceTest {
+@SpringBootTest(classes = {AuthorServiceImpl.class, AuthorMapperImpl.class})
+@ActiveProfiles({"test"})
+public class AuthorServiceTest {
 
     private static final AuthorDto AUTHOR_DTO = new AuthorDto("Author_1");
 

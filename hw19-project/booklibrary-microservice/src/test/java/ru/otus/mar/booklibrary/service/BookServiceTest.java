@@ -2,11 +2,15 @@ package ru.otus.mar.booklibrary.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.mar.booklibrary.BasePersistenceTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.otus.mar.booklibrary.dto.AuthorDto;
 import ru.otus.mar.booklibrary.dto.BookDto;
 import ru.otus.mar.booklibrary.dto.GenreDto;
+import ru.otus.mar.booklibrary.mapper.AuthorMapperImpl;
+import ru.otus.mar.booklibrary.mapper.BookMapperImpl;
+import ru.otus.mar.booklibrary.mapper.GenreMapperImpl;
 import ru.otus.mar.booklibrary.model.Author;
 import ru.otus.mar.booklibrary.model.Book;
 import ru.otus.mar.booklibrary.model.Genre;
@@ -21,7 +25,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class BookServiceTest extends BasePersistenceTest {
+@SpringBootTest(classes = {BookServiceImpl.class, BookMapperImpl.class, AuthorMapperImpl.class, GenreMapperImpl.class})
+@ActiveProfiles({"test"})
+public class BookServiceTest {
 
     private static final Book BOOK = new Book("Book_1", new Author("Author_1"), new Genre("Genre_1"));
 

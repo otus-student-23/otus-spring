@@ -2,24 +2,30 @@ package ru.otus.mar.auth.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import ru.otus.mar.booklibrary.BasePersistenceTest;
+import org.springframework.test.context.ActiveProfiles;
 import ru.otus.mar.auth.dto.UserDto;
+import ru.otus.mar.auth.mapper.UserMapperImpl;
 import ru.otus.mar.auth.model.User;
 import ru.otus.mar.auth.repository.UserRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
 
-public class UserServiceTest extends BasePersistenceTest {
-/*todo
-    private static final UserDto USER_DTO = new UserDto("User_1");
+@SpringBootTest(classes = {UserServiceImpl.class, UserMapperImpl.class})
+@ActiveProfiles({"test"})
+public class UserServiceTest {
 
-    private static final User USER = new User("Author_1");
+    private static final UserDto USER_DTO =
+            new UserDto(UUID.fromString("58f3c049-4132-400a-ae4e-eac4b558ffa9"), "User_1", "user");
+
+    private static final User USER =
+            new User(UUID.fromString("58f3c049-4132-400a-ae4e-eac4b558ffa9"), "User_1", "user");
 
     @Autowired
     private UserService service;
@@ -29,7 +35,7 @@ public class UserServiceTest extends BasePersistenceTest {
 
     @Test
     void create() {
-        when(repo.findByName(USER.getName())).thenReturn(Optional.of(USER));
+        when(repo.save(USER)).thenReturn(USER);
         assertEquals(USER_DTO, service.create(USER_DTO));
     }
 
@@ -41,7 +47,6 @@ public class UserServiceTest extends BasePersistenceTest {
 
     @Test
     void delete() {
-        when(repo.findByName(USER.getName())).thenReturn(Optional.of(USER));
         service.delete(USER_DTO.getId());
         verify(repo, times(1)).deleteById(USER.getId());
     }
@@ -51,10 +56,4 @@ public class UserServiceTest extends BasePersistenceTest {
         when(repo.findAll()).thenReturn(List.of(USER));
         assertTrue(service.getAll().containsAll(List.of(USER_DTO)));
     }
-
-    @Test
-    void getByName() {
-        when(repo.findByName(USER.getName())).thenReturn(Optional.of(USER));
-        assertEquals(USER_DTO, service.getByName(USER.getName()).get());
-    }*/
 }

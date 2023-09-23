@@ -2,6 +2,11 @@ eureka:
   instance:
     hostName: ${spring.application.name}
     preferIpAddress: true
+    metadataMap:
+      prometheus:
+        scrape: true
+        path: "/actuator/prometheus"
+        port: ${server.port}
   client:
     fetchRegistry: true
     serviceUrl:
@@ -23,7 +28,7 @@ spring:
         - id: booklibrary
           uri: lb://booklibrary-microservice
           predicates:
-            - Path=/api/library/**,/swagger-ui/**,/v3/**,/actuator/**
+            - Path=/api/library/**,/swagger-ui/**,/v3/**
           filters:
             - TokenRelay=
         - id: auth
@@ -57,9 +62,12 @@ spring:
 
 management:
   endpoints:
-    enabled-by-default: false
+    #enabled-by-default: false
+    web:
+      exposure:
+        include: health,info,prometheus
   endpoint:
     health:
-      enabled: true
+      #enabled: true
       probes:
         enabled: true

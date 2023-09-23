@@ -22,12 +22,12 @@
         <insert tableName="users">
             <column name="id" value="66b95650-e7a2-440f-8d86-39aa4befa52e"/>
             <column name="username" value="admin1"/>
-            <column name="roles" value="user, admin"/>
+            <column name="roles" value="user,admin"/>
         </insert>
         <insert tableName="users">
-            <column name="id" value="015db648-11e3-47cc-91ee-0b9e1a4e8397"/>
-            <column name="username" value="user1"/>
-            <column name="roles" value="user"/>
+            <column name="id" value="89013248-a15b-4285-8db2-abec076c3ce0"/>
+            <column name="username" value="admin1"/>
+            <column name="roles" value="user,admin"/>
         </insert>
     </changeSet>
 </databaseChangeLog>

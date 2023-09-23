@@ -16,7 +16,7 @@ services:
     container_name: sso
     #http://localhost:8084/realms/BookLibrary/hostname-debug
     command:
-      - start-dev --hostname-debug=true
+      - start-dev --hostname-debug=true --metrics-enabled=true
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -27,8 +27,8 @@ services:
     volumes:
       - ./sso-server/volume/h2/:/opt/keycloak/data/h2/
       #- ./sso-server/realm-export.json:/tmp/realm-export.json
-      - ./sso-server/cert/sso.crt.pem:/etc/x509/https/tls.crt
-      - ./sso-server/cert/sso.key.pem:/etc/x509/https/tls.key
+      - ./https/sso.crt.pem:/etc/x509/https/tls.crt
+      - ./https/sso.key.pem:/etc/x509/https/tls.key
     ports:
       - 8080:8080
       - 8443:8443
@@ -43,6 +43,7 @@ services:
       DISCOVERY_URL: http://discovery:8761/eureka/
     ports:
       - "8888:8888"
+    restart: always
 
   discovery:
     container_name: discovery
@@ -69,6 +70,8 @@ services:
       LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
       #--- iframe
       #SPRING_PROFILES_ACTIVE: docker
+    volumes:
+      - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
     ports:
       - "8081:8080"
     restart: always
@@ -79,10 +82,10 @@ services:
     #extra_hosts:
       #- "host.docker.internal:host-gateway"
 
-  booklibrary:
-    container_name: booklibrary
+  auth:
+    container_name: auth
     build:
-      context: booklibrary-microservice
+      context: auth-microservice
       dockerfile: Dockerfile
     environment:
       - CONFIG_URL=http://config:8888/
@@ -90,7 +93,29 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
       - SPRING_DATASOURCE_USERNAME=postgres
       - SPRING_DATASOURCE_PASSWORD=postgres
+    volumes:
+      - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
+    restart: always
+    depends_on:
+      - config
+      - db
+
+  booklibrary:
+    container_name: booklibrary
+    build:
+      context: booklibrary-microservice
+      dockerfile: Dockerfile
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=80
+      - CONFIG_URL=http://config:8888/
+      - CONFIG_LABEL=default
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
       #- SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
+    restart: always
     depends_on:
       - config
       - db
@@ -103,6 +128,7 @@ services:
     environment:
       - CONFIG_URL=http://config:8888/
       - CONFIG_LABEL=default
+    restart: always
     depends_on:
       - config
 
@@ -113,6 +139,24 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.47.0
+    command: --config.file=/etc/prometheus/prometheus.yml --log.level=debug
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus-server/prometheus.yml:/etc/prometheus/prometheus.yml
+    #extra_hosts:
+      #- "host.docker.internal:host-gateway"
+    network_mode: "host"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:10.1.2
+    ports:
+      - 3000:3000
 
   #--- iframe
   reverse-proxy:

@@ -18,10 +18,6 @@ import java.util.stream.Collectors;
 
 import static org.springframework.security.oauth2.core.oidc.StandardClaimNames.PREFERRED_USERNAME;
 
-/**
- * https://docs.spring.io/spring-authorization-server/docs/current/reference/html/getting-started.html
- * https://stackoverflow.com/questions/64483545/spring-boot-resource-server-keycloak-scope-vs-role
- */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
@@ -34,8 +30,8 @@ public class SecurityConfig {
                 //.csrf().disable()
                 .headers().frameOptions().disable().and()//--- iframe
                 .authorizeRequests(request -> request
-                        //.antMatchers("/lan/**").hasIpAddress("127.0.0.1/24")
-                        .antMatchers("/lan/**", "/swagger-ui/**", "/v3/**", "/lk/**").permitAll()//todo remove /lk
+                        //.antMatchers("/lan/**").hasIpAddress("127.0.0.1/24")//todo hasIpAddress("lan")
+                        .antMatchers("/lan/**", "/swagger-ui/**", "/v3/**", "/lk/**", "/actuator/**").permitAll()//todo remove lk, actuator hasIpAddress
                         //.antMatchers("/**").hasAuthority("SCOPE_openid")
                         .antMatchers("/api/**").hasAuthority("user")
                         .anyRequest().denyAll()

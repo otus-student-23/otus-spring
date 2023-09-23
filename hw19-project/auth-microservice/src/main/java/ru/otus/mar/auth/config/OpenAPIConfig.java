@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @OpenAPIDefinition(servers = {@Server(url = "/", description = "Default Server URL")})
-public class OpenAPIConfig {//todo перенести в общий сваггер
+public class OpenAPIConfig {//TODO перенести в единый сваггер
 
     @Value("${spring.security.oauth2.resourceserver.jwt.issuer-uri}")
     private String issuerUri;
