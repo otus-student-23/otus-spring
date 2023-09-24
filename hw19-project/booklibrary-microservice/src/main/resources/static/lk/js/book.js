@@ -54,3 +54,10 @@ function buildEntityRow(entity) {
             </td>
         </tr>`;
 }
+
+function toJsonNotice(event) {
+    return {
+        subj: ((event.event === 'INSERT') ? "Добавлена" : ((event.event === 'UPDATE') ? "Изменена" : "Удалена")) + " книга",
+        body: event.entity.name
+    };
+}

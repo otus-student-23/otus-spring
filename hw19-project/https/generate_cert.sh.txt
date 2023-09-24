@@ -4,6 +4,7 @@ read -p "Press any key to continue..."
 
 #https://www.keycloak.org/server/enabletls
 #chrome://net-internals/#hsts
+#chrome://net-internals/#dns
 
 #openssl req -newkey rsa:2048 -x509 -sha256 -days 3650 -nodes -out sso.crt.pem -keyout sso.key.pem -config sso.conf
 chmod 755 sso.key.pem

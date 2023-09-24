@@ -28,9 +28,10 @@ stompClient.onConnect = (frame) => {
             entities.innerHTML += buildEntityRow(json.entity);
         }
         if (granted) {
-            var notification = new Notification(json.event, {
+            let jsonNotice = toJsonNotice(json);
+            var notification = new Notification(jsonNotice.subj, {
                 //tag : "",
-                body : json.entity.id,
+                body : jsonNotice.body,
                 icon : "/favicon.ico"
             });
             setTimeout(function() {notification.close();}, 3000);
