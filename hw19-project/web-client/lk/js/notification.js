@@ -1,3 +1,16 @@
+var granted = false;
+
+switch (Notification.permission) {
+    case "granted":
+        granted = true;
+        break;
+    case "denied":
+        console.error("Уведомления отключены");
+        break;
+    case "default":
+        granted = Notification.requestPermission() === 'granted' ? true : false;
+}
+
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://' + location.host + '/notification'
 });
@@ -13,6 +26,14 @@ stompClient.onConnect = (frame) => {
         }
         if (json.event !== 'DELETE') {
             entities.innerHTML += buildEntityRow(json.entity);
+        }
+        if (granted) {
+            var notification = new Notification(json.event, {
+                //tag : "",
+                body : json.entity.id,
+                icon : "/favicon.ico"
+            });
+            setTimeout(function() {notification.close();}, 3000);
         }
     });
 };
@@ -33,7 +54,7 @@ function disconnect() {
 
 function sendConfirm() {
     stompClient.publish({
-        destination: "/app/confirm",
+        destination: "/notification/confirm",
         body: JSON.stringify({'status': 'done'})
     });
 }

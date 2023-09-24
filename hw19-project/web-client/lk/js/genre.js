@@ -1,4 +1,4 @@
-const api = '/api/genre';
+const api = '/api/library/genre';
 const topic = '/topic/genre';
 
 function getEntityJson() {

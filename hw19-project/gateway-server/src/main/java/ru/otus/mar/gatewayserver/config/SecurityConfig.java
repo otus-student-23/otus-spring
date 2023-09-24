@@ -20,7 +20,7 @@ public class SecurityConfig {
         http
                 .csrf().disable()
                 .headers().frameOptions().disable().and()//--- iframe
-                .authorizeExchange().pathMatchers("/").permitAll().and()
+                .authorizeExchange().pathMatchers("/", "/favicon.ico").permitAll().and()
                 .authorizeExchange().pathMatchers("/actuator/**").permitAll().and()//TODO hasIpAddress("prometheus")
                 .authorizeExchange().pathMatchers("/swagger-ui/**", "/v3/**", "/api/**").permitAll().and()
                 .authorizeExchange().anyExchange().authenticated().and()

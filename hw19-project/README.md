@@ -43,11 +43,11 @@ OpenApi, Swagger, HTML, JavaScript/AJAX, CSS, openssl, bash,
 Maven, Git, Intellij IDEA.
 ```
 
-### Ссылки приложения:
-1. [Онлайн-библиотека, главная страница](http://localhost:8081/)
+### Внутренние ссылки приложения:
+1. [Онлайн-библиотека, главная страница](http://localhost:8080/)
 2. [Сервер конфигураций](http://localhost:8888/booklibrary-microservice/default)
 3. [Eureka](http://localhost:8761/)
-4. [Keycloak](http://localhost:8080/)
-5. [Swagger](http://localhost:8081/swagger-ui/index.html)
+4. [Keycloak](http://localhost/)
+5. [Swagger](http://localhost:8080/swagger-ui/index.html)
 6. [Prometheus](http://localhost:9090/)
 7. [Grafana](http://localhost:3000/)

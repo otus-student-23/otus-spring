@@ -14,7 +14,7 @@ document.getElementById('list-button').addEventListener('click', () => {
 });
 
 saveDialog.addEventListener('close', async (e) => {
-    var httpMethod = saveDialog.returnValue;
+    let httpMethod = saveDialog.returnValue;
     saveDialog.returnValue = '';
     if (['PUT','POST','DELETE'].indexOf(httpMethod) < 0 || !document.forms['entity-form'].checkValidity()) {
         //saveDialog.reportValidity();
@@ -26,20 +26,22 @@ saveDialog.addEventListener('close', async (e) => {
         headers: {
             'accept': 'application/json',
             'Content-Type': 'application/json',
+            //'Authorization': `Bearer ${keycloak.token}`,
             'X-XSRF-TOKEN': document.cookie.replace(/(?:(?:^|.*;\s*)XSRF-TOKEN\s*\=\s*([^;]*).*$)|^.*$/, '$1')
         },
         redirect: 'manual',
         body: JSON.stringify(entity)
     });
     if (response.ok) {
-        loadEntities();
+        //loadEntities();
     } else {
         let body = await response.text();
         saveDialog.showModal();
-        if (response.status === 0) {
+        if (response.status === 0 || response.status === 401) {
+            //window.location.reload();
+            //--- iframe
             document.getElementById('auth-dialog').showModal();
             document.getElementById('auth-iframe').contentWindow.location.reload();
-            //window.location.reload();
         } else {
             document.getElementById('entity-result').innerHTML = `[CODE: ${response.status}] ${escapeHtml(body)}`;
         }
@@ -64,7 +66,7 @@ function showEntityDialog(id) {
             saveDialog.showModal();
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
             window.location.reload();
         });
 }
@@ -95,27 +97,13 @@ function loadEntities() {
             getEntitiesRows(json);
         })
         .catch((error) => {
-            console.log(error);
+            console.error(error);
             //window.location.reload();
         });
 }
 
 window.onload = function() {
-    addAuthDialog();
     loadEntities();
-
-    var keycloak = new Keycloak({
-        url: 'http://localhost:8080',
-        realm: 'BookLibrary',
-        clientId: 'gateway-server'
-    });
-    //keycloak.init({onLoad: 'login-required'}).then(auth => {
-    keycloak.init({onLoad: 'check-sso'}).then(auth => {
-        if (auth) {
-            //console.log(keycloak.subject +': '+ JSON.stringify(keycloak.idTokenParsed, null, " "));
-            document.getElementById('user').innerHTML = keycloak.idTokenParsed.preferred_username;
-        }
-    });
 }
 
 function escapeHtml(unsafe) {

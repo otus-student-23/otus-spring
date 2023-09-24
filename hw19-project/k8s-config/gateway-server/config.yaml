@@ -5,3 +5,4 @@ metadata:
 data:
   CONFIG_URL: http://config:8888/
   CONFIG_LABEL: default
+  LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG

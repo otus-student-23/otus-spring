@@ -1,4 +1,4 @@
-const api = '/api/book';
+const api = '/api/library/book';
 const topic = '/topic/book';
 
 function getEntityJson() {
@@ -22,7 +22,7 @@ function fillEntityForm(json) {
 }
 
 function fillInputOptions(option_name) {
-    fetch('/api/' + option_name, {redirect: 'manual'})
+    fetch('/api/library/' + option_name, {redirect: 'manual'})
         .then(response => response.json())
         .then(json => {
             let rows = '';

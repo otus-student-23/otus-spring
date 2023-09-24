@@ -18,7 +18,7 @@ spec:
         app: discovery
     spec:
       containers:
-        - image: docker.io/library/k8s-discovery-server-image:0.0.23
+        - image: docker.io/library/k8s-discovery-server-image:0.2.0
           name: discovery
           ports:
             - containerPort: 8761

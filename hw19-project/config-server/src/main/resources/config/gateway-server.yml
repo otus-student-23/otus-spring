@@ -48,7 +48,7 @@ spring:
       client:
         provider:
           keycloak:
-            issuer-uri: http://sso:8080/realms/BookLibrary
+            issuer-uri: http://sso/realms/BookLibrary
             #user-name-attribute: preferred_username
         registration:
           keycloak:

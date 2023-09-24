@@ -10,7 +10,6 @@ spec:
     - http:
         paths:
           - path: /config/(.*)
-            #pathType: Prefix
             pathType: ImplementationSpecific
             backend:
               service:

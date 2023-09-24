@@ -18,7 +18,7 @@ spec:
         app: web
     spec:
       containers:
-        - image: docker.io/library/k8s-web-client-image:0.0.23
+        - image: docker.io/library/k8s-web-client-image:0.2.0
           name: web
           ports:
             - containerPort: 80

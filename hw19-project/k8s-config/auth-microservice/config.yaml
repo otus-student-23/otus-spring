@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: auth
+data:
+  CONFIG_URL: http://config:8888/
+  CONFIG_LABEL: default
+  SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/db
+  SPRING_DATASOURCE_USERNAME: postgres
+  SPRING_DATASOURCE_PASSWORD: postgres

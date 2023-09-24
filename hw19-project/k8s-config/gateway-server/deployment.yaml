@@ -18,7 +18,7 @@ spec:
         app: gateway
     spec:
       containers:
-        - image: docker.io/library/k8s-gateway-server-image:0.0.23
+        - image: docker.io/library/k8s-gateway-server-image:0.2.0
           name: gateway
           ports:
             - containerPort: 8080

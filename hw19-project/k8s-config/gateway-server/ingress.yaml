@@ -2,15 +2,27 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: gateway
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   ingressClassName: nginx
   rules:
     - http:
         paths:
-          - path: /(web/.*|api/.*|logout)
-            pathType: ImplementationSpecific
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 8080
+          - path: /oauth2/authorization/keycloak
+            pathType: Prefix
+            backend:
+              service:
+                name: gateway
+                port:
+                  number: 8080
+          - path: /login/oauth2/code/keycloak
+            pathType: Prefix
             backend:
               service:
                 name: gateway

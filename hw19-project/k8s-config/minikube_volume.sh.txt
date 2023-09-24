@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# ingress
+#minikube addons list
+#minikube addons enable ingress
+
+# DNS
+#https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/
+
+# volume
+#minikube delete
+minikube start --mount-string="/opt/develop/minikube/volume:/home/docker/volume" --mount
+#minikube ssh

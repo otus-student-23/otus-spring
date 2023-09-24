@@ -1,4 +1,4 @@
-const api = '/api/book/' + (new URLSearchParams(window.location.search)).get('bookId') + '/comment';
+const api = '/api/library/book/' + (new URLSearchParams(window.location.search)).get('bookId') + '/comment';
 const topic = '/topic/book_comment';
 
 function getEntityJson() {
@@ -18,7 +18,7 @@ function fillEntityForm(json) {
 }
 
 function getEntitiesRows(json) {
-    fetch('/api/book/' + (new URLSearchParams(window.location.search)).get('bookId'), {redirect: 'manual'})
+    fetch('/api/library/book/' + (new URLSearchParams(window.location.search)).get('bookId'), {redirect: 'manual'})
         .then(response => response.json())
         .then(json => {
             document.getElementById('book').value = json.name;
@@ -30,14 +30,17 @@ function getEntitiesRows(json) {
 }
 
 function buildEntityRow(entity) {
-    if (typeof entity.book_id === "undefined" || (new URLSearchParams(window.location.search)).get('bookId') === entity.book_id)
+    if ((new URLSearchParams(window.location.search)).get('bookId') === entity.book.id) {
+        let createDate = new Date(entity.createDate);
         return `
             <tr id='${entity.id}'>
+                <td>${createDate.toISOString().split('.')[0].replace('T',' ')}</td>
+                <td>${entity.username}</td>
                 <td><pre>${entity.comment}</pre></td>
                 <td>
                     <button onclick='editEntityDialog("${entity.id}")'>Править</button>
                     <button onclick='deleteEntityDialog("${entity.id}")'>Удалить</button>
                 </td>
             </tr>`;
-    else return '';
+    } else return '';
 }

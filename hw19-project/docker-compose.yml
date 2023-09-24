@@ -16,7 +16,7 @@ services:
     container_name: sso
     #http://localhost:8084/realms/BookLibrary/hostname-debug
     command:
-      - start-dev --hostname-debug=true --metrics-enabled=true
+      - start-dev --http-port=80 --https-port=443 --hostname-debug=true --metrics-enabled=true
     environment:
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
@@ -30,8 +30,8 @@ services:
       - ./https/sso.crt.pem:/etc/x509/https/tls.crt
       - ./https/sso.key.pem:/etc/x509/https/tls.key
     ports:
-      - 8080:8080
-      - 8443:8443
+      - 80:80
+      - 443:443
 
   config:
     container_name: config
@@ -73,7 +73,7 @@ services:
     volumes:
       - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
     ports:
-      - "8081:8080"
+      - "8080:8080"
     restart: always
     depends_on:
       - config
@@ -137,8 +137,6 @@ services:
     build:
       context: web-client
       dockerfile: Dockerfile
-    ports:
-      - "80:80"
 
   prometheus:
     container_name: prometheus

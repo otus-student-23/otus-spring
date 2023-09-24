@@ -18,7 +18,7 @@ spec:
         app: config
     spec:
       containers:
-        - image: docker.io/library/k8s-config-server-image:0.0.23
+        - image: docker.io/library/k8s-config-server-image:0.2.0
           name: config
           ports:
             - containerPort: 8888

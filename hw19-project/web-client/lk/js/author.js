@@ -1,4 +1,4 @@
-const api = '/api/author';
+const api = '/api/library/author';
 const topic = '/topic/author';
 
 function getEntityJson() {

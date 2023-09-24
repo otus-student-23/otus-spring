@@ -18,7 +18,7 @@ spec:
         app: booklibrary
     spec:
       containers:
-        - image: docker.io/library/k8s-booklibrary-microservice-image:0.0.23
+        - image: docker.io/library/k8s-booklibrary-microservice-image:0.2.0
           name: booklibrary
           ports:
             - containerPort: 8080

@@ -1,0 +1,39 @@
+spring:
+  datasource:
+    driverClassName: org.postgresql.Driver
+    url: ${spring.datasource.url}
+    username: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    hikari:
+      schema: booklibrary
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+  liquibase:
+    change-log: classpath:liquibase/changelog.xml
+    user: ${spring.datasource.username}
+    password: ${spring.datasource.password}
+    url: ${spring.datasource.url}
+    default-schema: ${spring.datasource.hikari.schema}
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://sso/realms/BookLibrary
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+springdoc:
+  show-actuator: true

@@ -4,11 +4,11 @@
     <meta charset="UTF-8"/>
     <title>Библиотека</title>
     <link href="style.css" rel="stylesheet"/>
-    <script src="js/auth.js" type="text/javascript" charset="UTF-8"></script>
     <script src="js/genre.js" type="text/javascript" charset="UTF-8"></script>
     <script src="js/abstract_entity.js" type="text/javascript" charset="UTF-8" defer></script>
     <script src="js/lib/keycloak.min.js" type="text/javascript" charset="UTF-8"></script>
     <script src="js/lib/stomp.umd.min.js"></script>
+    <script src="js/auth.js" type="text/javascript" charset="UTF-8" defer></script>
     <script src="js/notification.js" type="text/javascript" charset="UTF-8"></script>
 </head>
 <body>
@@ -17,8 +17,8 @@
     <li><a href="book.html">Книги</a></li>
     <li><a href="author.html">Авторы</a></li>
     <li><a href="genre.html" class="active">Жанры</a></li>
-    <li><a href="/swagger-ui/index.html" target="_blank">Swagger UI</a></li>
-    <li><a href="#" id="user">User</a><ul><li><a href="/logout">Выход</a></li></ul></li>
+    <li><a href="user.html">Пользователи</a></li>
+    <li><a href="#" id="user">Выход</a><ul><li><a href="#" onclick="logout();">Выход</a></li></ul></li>
 </menu>
 
 <dialog id="entity-dialog">
