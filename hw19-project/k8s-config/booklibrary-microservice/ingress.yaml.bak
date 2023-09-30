@@ -1,0 +1,16 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: booklibrary
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /api/library
+            pathType: Prefix
+            backend:
+              service:
+                name: booklibrary
+                port:
+                  number: 8080

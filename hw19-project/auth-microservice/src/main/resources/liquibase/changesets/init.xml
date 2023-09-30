@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="schema" author="mar">
+        <createTable tableName="users" remarks="Пользователи">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(100)" remarks="Имя пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="roles" type="varchar" remarks="Роли">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="users" indexName="users.username.idx">
+            <column name="username"/>
+        </createIndex>
+
+        <insert tableName="users">
+            <column name="id" value="66b95650-e7a2-440f-8d86-39aa4befa52e"/>
+            <column name="username" value="admin1"/>
+            <column name="roles" value="user,admin"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" value="89013248-a15b-4285-8db2-abec076c3ce0"/>
+            <column name="username" value="admin1"/>
+            <column name="roles" value="user,admin"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

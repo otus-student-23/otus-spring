@@ -1,0 +1,166 @@
+version: "3.3"
+services:
+
+  db:
+    image: postgres:14.7-alpine
+    container_name: db
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=db
+
+  sso:
+    image: quay.io/keycloak/keycloak:22.0.1
+    container_name: sso
+    #http://localhost:8084/realms/BookLibrary/hostname-debug
+    command:
+      - start-dev --http-port=80 --https-port=443 --hostname-debug=true --metrics-enabled=true
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+      #KEYCLOAK_IMPORT: /tmp/realm-export.json
+      #PROXY_ADDRESS_FORWARDING: "true"
+      KC_HTTPS_CERTIFICATE_FILE: /etc/x509/https/tls.crt
+      KC_HTTPS_CERTIFICATE_KEY_FILE: /etc/x509/https/tls.key
+    volumes:
+      - ./sso-server/volume/h2/:/opt/keycloak/data/h2/
+      #- ./sso-server/realm-export.json:/tmp/realm-export.json
+      - ./https/sso.crt.pem:/etc/x509/https/tls.crt
+      - ./https/sso.key.pem:/etc/x509/https/tls.key
+    ports:
+      - 80:80
+      - 443:443
+
+  config:
+    container_name: config
+    build:
+      context: config-server
+      dockerfile: Dockerfile
+    environment:
+      SPRING_PROFILES_ACTIVE: native
+      DISCOVERY_URL: http://discovery:8761/eureka/
+    ports:
+      - "8888:8888"
+    restart: always
+
+  discovery:
+    container_name: discovery
+    build:
+      context: discovery-server
+      dockerfile: Dockerfile
+    environment:
+      CONFIG_URL: http://config:8888/
+      CONFIG_LABEL: default
+    ports:
+      - "8761:8761"
+    restart: always
+    depends_on:
+      - config
+
+  gateway:
+    container_name: gateway
+    build:
+      context: gateway-server
+      dockerfile: Dockerfile
+    environment:
+      CONFIG_URL: http://config:8888/
+      CONFIG_LABEL: default
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY: DEBUG
+      #--- iframe
+      #SPRING_PROFILES_ACTIVE: docker
+    volumes:
+      - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
+    ports:
+      - "8080:8080"
+    restart: always
+    depends_on:
+      - config
+      - discovery
+      - sso
+    #extra_hosts:
+      #- "host.docker.internal:host-gateway"
+
+  auth:
+    container_name: auth
+    build:
+      context: auth-microservice
+      dockerfile: Dockerfile
+    environment:
+      - CONFIG_URL=http://config:8888/
+      - CONFIG_LABEL=default
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+    volumes:
+      - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
+    restart: always
+    depends_on:
+      - config
+      - db
+
+  booklibrary:
+    container_name: booklibrary
+    build:
+      context: booklibrary-microservice
+      dockerfile: Dockerfile
+    environment:
+      - JAVA_TOOL_OPTIONS=-XX:+UseContainerSupport -XX:MaxRAMPercentage=80
+      - CONFIG_URL=http://config:8888/
+      - CONFIG_LABEL=default
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      #- SPRING_PROFILES_ACTIVE=docker
+    volumes:
+      - ./https/cacerts:/usr/lib/jvm/jdk-17.0.7-bellsoft-x86_64/lib/security/cacerts
+    restart: always
+    depends_on:
+      - config
+      - db
+
+  notification:
+    container_name: notification
+    build:
+      context: notification-microservice
+      dockerfile: Dockerfile
+    environment:
+      - CONFIG_URL=http://config:8888/
+      - CONFIG_LABEL=default
+    restart: always
+    depends_on:
+      - config
+
+  web:
+    container_name: web
+    build:
+      context: web-client
+      dockerfile: Dockerfile
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:v2.47.0
+    command: --config.file=/etc/prometheus/prometheus.yml --log.level=debug
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus-server/prometheus.yml:/etc/prometheus/prometheus.yml
+    #extra_hosts:
+      #- "host.docker.internal:host-gateway"
+    network_mode: "host"
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:10.1.2
+    ports:
+      - 3000:3000
+
+  #--- iframe
+  reverse-proxy:
+    image: nginx:1.25.2-alpine
+    container_name: reverse-proxy
+    volumes:
+      - ./reverse-proxy/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - 8084:8080

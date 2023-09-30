@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: auth-microservice
+  cloud:
+    config:
+      uri: ${config.url}
+      label: ${config.label}
+      fail-fast: true

@@ -1,0 +1,6 @@
+#!/bin/bash
+
+read -p "Press any key to continue..."
+
+#keytool -import -alias sso -file sso.crt.pem -keystore cacerts -storepass changeit
+#keytool -list -v -keystore cacerts -storepass changeit > cacerts.txt

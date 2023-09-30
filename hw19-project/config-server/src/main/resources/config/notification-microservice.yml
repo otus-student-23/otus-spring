@@ -1,0 +1,23 @@
+eureka:
+  instance:
+    hostName: ${spring.application.name}
+    preferIpAddress: true
+    metadataMap:
+      prometheus:
+        scrape: true
+        path: "/actuator/prometheus"
+        port: ${server.port}
+  client:
+    fetchRegistry: true
+    serviceUrl:
+      defaultZone: http://discovery:8761/eureka/
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      probes:
+        enabled: true

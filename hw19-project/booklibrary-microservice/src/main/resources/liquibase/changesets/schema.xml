@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="schema" author="mar">
+        <createTable tableName="users" remarks="Пользователи">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="username" type="varchar(100)" remarks="Имя пользователя">
+                <constraints nullable="false"/>
+            </column>
+            <column name="password" type="varchar(255)" remarks="Пароль">
+                <constraints nullable="false"/>
+            </column>
+            <column name="role" type="varchar(32)" remarks="Роль">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <createIndex tableName="users" indexName="users.username.idx" unique="true">
+            <column name="username"/>
+        </createIndex>
+
+        <insert tableName="users">
+            <column name="id" value="66b95650-e7a2-440f-8d86-39aa4befa52e"/>
+            <column name="username" value="admin"/>
+            <column name="password" value="$2y$10$vTpVAbdUIB.76COt5qzrrO2GdORuBXaZptSgdJoK2/R7xpBbJlXW6"/><!--admin-->
+            <column name="role" value="ROLE_ADMIN"/>
+        </insert>
+        <insert tableName="users">
+            <column name="id" value="8f30e1d3-d131-4f4b-8857-5ac312831f38"/>
+            <column name="username" value="user"/>
+            <column name="password" value="$2y$10$VtFR7P6TJGSjAQzfV6uw0.lqqivgXKt7vp08WV9FFNk/FMx4L/YRO"/><!--user-->
+            <column name="role" value="ROLE_USER"/>
+        </insert>
+
+        <createTable tableName="author" remarks="Авторы">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="Наименование">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="genre" remarks="Жанры">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="Наименование">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="book" remarks="Книги">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="name" type="varchar(100)" remarks="Наименование">
+                <constraints nullable="false"/>
+            </column>
+            <column name="author_id" type="uuid">
+                <constraints foreignKeyName="book.author_id.fk" references="author(id)"/>
+            </column>
+            <column name="genre_id" type="uuid">
+                <constraints foreignKeyName="book.genre_id.fk" references="genre(id)"/>
+            </column>
+        </createTable>
+        <createIndex tableName="book" indexName="book.name.idx" unique="true">
+            <column name="name"/>
+            <column name="author_id"/>
+        </createIndex>
+
+        <createTable tableName="book_comment" remarks="Комментарии к книге">
+            <column name="id" type="uuid">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="book_id" type="uuid">
+                <constraints foreignKeyName="book_comment.book_id.fk" references="book(id)"/>
+            </column>
+            <column name="create_date" type="timestamp" remarks="Дата создания"/>
+            <column name="username" type="varchar" remarks="Пользователь"/>
+            <column name="comment" type="varchar" remarks="Комментарий"/>
+        </createTable>
+        <createIndex tableName="book_comment" indexName="book_comment.create_date.idx">
+            <column name="create_date"/>
+        </createIndex>
+
+    </changeSet>
+</databaseChangeLog>

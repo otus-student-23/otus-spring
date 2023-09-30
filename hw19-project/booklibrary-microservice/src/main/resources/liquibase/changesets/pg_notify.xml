@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="pg_notify" author="mar">
+        <sql splitStatements="false">
+            drop trigger if exists author_trigger on booklibrary.author;
+            create or replace function booklibrary.notify_author() returns trigger as $$
+            begin
+                perform pg_notify('author_events', format('{"event":"%s","entity":%s}',tg_op,row_to_json(case tg_op when 'DELETE' then old else new end)::text));
+                return null;
+            end $$ language plpgsql;
+            create trigger author_trigger
+                after insert or update or delete on booklibrary.author
+                for each row execute function booklibrary.notify_author();
+
+            drop trigger if exists genre_trigger on booklibrary.genre;
+            create or replace function booklibrary.notify_genre() returns trigger as $$
+            begin
+                perform pg_notify('genre_events', format('{"event":"%s","entity":%s}',tg_op,row_to_json(case tg_op when 'DELETE' then old else new end)::text));
+                return null;
+            end $$ language plpgsql;
+            create trigger genre_trigger
+                after insert or update or delete on booklibrary.genre
+                for each row execute function booklibrary.notify_genre();
+
+            drop trigger if exists book_trigger on booklibrary.book;
+            create or replace function booklibrary.notify_book() returns trigger as $$
+            declare
+                v_entity booklibrary.book%ROWTYPE;
+                v_json json;
+            begin
+                v_entity = (case tg_op when 'DELETE' then old else new end);
+                select into v_json row_to_json(t)
+                from (
+                    select v_entity.*, row_to_json(a) as "author", row_to_json(g) as "genre"
+                    from booklibrary.author a, booklibrary.genre g
+                    where a.id = v_entity.author_id and g.id = v_entity.genre_id
+                ) t;
+                perform pg_notify('book_events', format('{"event":"%s","entity":%s}',tg_op,v_json::text));
+                return null;
+            end $$ language plpgsql;
+            create trigger book_trigger
+                after insert or update or delete on booklibrary.book
+                for each row execute function booklibrary.notify_book();
+
+            drop trigger if exists book_comment_trigger on booklibrary.book_comment;
+            create or replace function booklibrary.notify_book_comment() returns trigger as $$
+            declare
+                v_entity booklibrary.book_comment%ROWTYPE;
+                v_json json;
+            begin
+                v_entity = (case tg_op when 'DELETE' then old else new end);
+                select into v_json row_to_json(t)
+                from (
+                    select v_entity.*, v_entity.create_date as "createDate", row_to_json(b) as "book"
+                    from booklibrary.book b
+                    where b.id = v_entity.book_id
+                ) t;
+                perform pg_notify('book_comment_events', format('{"event":"%s","entity":%s}',tg_op,v_json::text));
+                return null;
+            end $$ language plpgsql;
+            create trigger book_comment_trigger
+                after insert or update or delete on booklibrary.book_comment
+                for each row execute function booklibrary.notify_book_comment();
+        </sql>
+    </changeSet>
+</databaseChangeLog>

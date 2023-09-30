@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notification
+data:
+  CONFIG_URL: http://config:8888/
+  CONFIG_LABEL: default

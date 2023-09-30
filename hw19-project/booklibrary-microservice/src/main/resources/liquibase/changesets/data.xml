@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd">
+
+    <changeSet id="data" author="mar" runAlways="true">
+
+        <loadUpdateData file="liquibase/data/author.csv" separator=";" tableName="author" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="name" type="string"/>
+        </loadUpdateData>
+
+        <loadUpdateData file="liquibase/data/genre.csv" separator=";" tableName="genre" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="name" type="string"/>
+        </loadUpdateData>
+
+        <loadUpdateData file="liquibase/data/book.csv" separator=";" tableName="book" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="author_id" type="uuid"/>
+            <column name="genre_id" type="uuid"/>
+            <column name="name" type="string"/>
+        </loadUpdateData>
+
+        <loadUpdateData file="liquibase/data/book_comment.csv" separator=";" tableName="book_comment" primaryKey="id">
+            <column name="id" type="uuid"/>
+            <column name="book_id" type="uuid"/>
+            <column name="create_date" type="timestamp"/>
+            <column name="comment" type="string"/>
+        </loadUpdateData>
+
+    </changeSet>
+</databaseChangeLog>
