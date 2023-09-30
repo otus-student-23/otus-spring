@@ -44,3 +44,10 @@ function buildEntityRow(entity) {
             </tr>`;
     } else return '';
 }
+
+function toJsonNotice(event) {
+    return {
+        subj: ((event.event === 'INSERT') ? "Добавлен" : ((event.event === 'UPDATE') ? "Изменен" : "Удален")) + " комментарий",
+        body: "[" + event.entity.book.name + "]: " + event.entity.comment
+    };
+}

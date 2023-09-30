@@ -25,3 +25,10 @@ function buildEntityRow(entity) {
             </td>
         </tr>`;
 }
+
+function toJsonNotice(event) {
+    return {
+        subj: ((event.event === 'INSERT') ? "Добавлен" : ((event.event === 'UPDATE') ? "Изменен" : "Удален")) + " жанр",
+        body: event.entity.name
+    };
+}

@@ -18,13 +18,9 @@ spring:
       #discovery.locator.enabled: true
       routes:
         - id: web
-          #uri: http://web
-          uri: lb://booklibrary-microservice
+          uri: http://web
           predicates:
             - Path=/lk/**
-          #todo remove when change to http://web
-          filters:
-            - TokenRelay=
         - id: booklibrary
           uri: lb://booklibrary-microservice
           predicates:
